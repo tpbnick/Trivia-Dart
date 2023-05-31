@@ -2,6 +2,10 @@
 
 ![trivia-dart-image](/src/assets/triviadart.webp)
 
+[Demo](https://triviadart.netlify.app/)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6cb91f4b-93fe-4ac1-b7e0-417c39c7a2c4/deploy-status)](https://app.netlify.com/sites/triviadart/deploys)
+
 ## Overview
 
 Trivia Dart is a simple Trivia web application that utilizes both the [Open Trivia DB ](https://opentdb.com/) and [The Trivia API](https://the-trivia-api.com/), which both offer generous free API usage.
