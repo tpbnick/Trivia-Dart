@@ -9,6 +9,10 @@ module.exports = {
 				atom1: "#40444f",
 				atom2: "#4e5466",
 			},
+			fontFamily: {
+				roboto: ["Roboto", "sans-serif"],
+				"roboto-mono": ["Roboto Mono", "monospace"],
+			},
 		},
 	},
 	variants: {

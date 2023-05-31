@@ -1,4 +1,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
+import About from "./About";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGears } from "@fortawesome/free-solid-svg-icons";
 
 const Trivia = () => {
 	const TriviaSource: Record<string, string> = {
@@ -9,7 +12,7 @@ const Trivia = () => {
 	const openTriviaURL = "&category=";
 	const triviaAPIURL = "&categories=";
 
-	const triviaDBCategories = {
+	const triviaDBCategories: Record<string, string> = {
 		Any: "",
 		Music: "music",
 		"Sports & Leisure": "sport_and_leisure",
@@ -22,8 +25,8 @@ const Trivia = () => {
 		"Food & Drink": "food_and_drink",
 		"General Knowledge": "general_knowledge",
 	};
-	const openTriviaCategories = {
-		Any: "",
+	const openTriviaCategories: Record<string, number> = {
+		Any: 0,
 		"General Knowledge": 9,
 		Books: 10,
 		Film: 11,
@@ -42,7 +45,7 @@ const Trivia = () => {
 	const [selectedSource, setSelectedSource] = useState<string>(
 		Object.keys(TriviaSource)[0]
 	);
-	const [selectedCategory, setSelectedCategory] = useState<string>("any");
+	const [selectedCategory, setSelectedCategory] = useState<string>("Any");
 	const [question, setQuestion] = useState<string | null>(null);
 	const [answer, setAnswer] = useState<string | null>(null);
 	const [questionType, setQuestionType] = useState<string | null>(null);
@@ -54,7 +57,7 @@ const Trivia = () => {
 
 	const handleSourceChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		setSelectedSource(event.target.value);
-		setSelectedCategory("any");
+		setSelectedCategory("Any");
 		setShowAnswer(false);
 		setShowOptions(false);
 	};
@@ -87,12 +90,11 @@ const Trivia = () => {
 		setQuestion(null);
 
 		let triviaURL = TriviaSource[selectedSource];
-		if (selectedCategory !== "any") {
+		if (selectedCategory !== "Any") {
 			if (selectedSource === "Open Trivia DB") {
-				triviaURL +=
-					openTriviaURL + (openTriviaCategories as any)[selectedCategory];
+				triviaURL += openTriviaURL + openTriviaCategories[selectedCategory];
 			} else {
-				triviaURL += triviaAPIURL + (triviaDBCategories as any)[selectedCategory];
+				triviaURL += triviaAPIURL + triviaDBCategories[selectedCategory];
 			}
 		}
 
@@ -120,8 +122,12 @@ const Trivia = () => {
 				setAnswer(decodeHTML(data[0].correctAnswer));
 				setQuestionType(null);
 			}
-		} catch (error: any) {
-			setError(error.toString());
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				setError(error.toString());
+			} else {
+				setError("An unknown error occurred.");
+			}
 		} finally {
 			setLoading(false);
 		}
@@ -129,11 +135,12 @@ const Trivia = () => {
 
 	useEffect(() => {
 		handleButtonClick();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedSource, selectedCategory]);
 
 	return (
-		<div className="my-4 flex flex-col items-center pt-10">
-			<div className="pt-5 pb-10 text-5xl">Trivia 🎯</div>
+		<div className="my-1 flex flex-col items-center pt-10 font-roboto">
+			<div className="pt-3 pb-5 text-5xl font-roboto-mono">Trivia🎯</div>
 			<div className="flex py-4">
 				<div className="form-control w-full max-w-xs">
 					<label className="label">
@@ -180,45 +187,58 @@ const Trivia = () => {
 			>
 				Get Question
 			</button>
+
 			{loading && (
-				<div className="w-12 h-12 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+				<div className="flex justify-center items-center pt-4">
+					<div className="w-12 h-12 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+				</div>
 			)}
 			{error && <p className="text-center">Error: {error}</p>}
 			{question && (
 				<div className="mt-4 text-center">
 					{questionType === "boolean" && <p>True or False:</p>}
-					<p className="text-white w-80 mx-auto">{question}</p>
+					<p className="text-white w-80 mx-auto text-xl">{question}</p>
 					<button
-						onClick={() => questionType !== "boolean" && setShowOptions(true)}
+						onClick={() => setShowOptions((prevShowOptions) => !prevShowOptions)}
 						className={`btn mt-4 text-white font-bold py-2 px-4 rounded mx-auto ${
 							questionType === "boolean"
-								? "opacity-90 cursor-not-allowed"
+								? "cursor-not-allowed opacity-90"
 								: "btn-outline"
 						}`}
 						disabled={questionType === "boolean"}
 					>
-						Show Options
+						{showOptions ? "Hide Options" : "Show Options"}
 					</button>
 
-					<div className="py-5">
-						{showOptions &&
-							options.map((option, index) => (
+					{showOptions && (
+						<div className="py-5">
+							{options.map((option, index) => (
 								<p key={index} className="text-white">
 									{option}
 								</p>
 							))}
-					</div>
+						</div>
+					)}
 					<div className="py-5">
 						<button
 							onClick={() => setShowAnswer(true)}
-							className="btn mt-4 btn-outline btn-success text-white font-bold py-2 px-4 rounded mx-auto"
+							className="btn btn-outline btn-success text-white font-bold py-2 px-4 rounded mx-auto"
 						>
 							Show Answer
 						</button>
 					</div>
-					{showAnswer && <p className="text-white">{answer}</p>}
+					{showAnswer && <p className="text-white text-xl">{answer}</p>}
 				</div>
 			)}
+			<About />
+			<div className="fixed bottom-0 right-0 p-5">
+				<label htmlFor="about-modal">
+					<FontAwesomeIcon
+						icon={faGears}
+						className="text-4xl hover:text-green-300 transition-colors duration-200"
+					/>
+				</label>
+			</div>
 		</div>
 	);
 };
