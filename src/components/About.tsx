@@ -15,29 +15,27 @@ const About = () => {
 					</label>
 
 					<h3 className="text-2xl font-bold">About</h3>
-					<p className="py-4">
-						All trivia questions are provided by:
-						<ol className="list-disc pl-8">
-							<li>
-								<a
-									href="https://opentdb.com/"
-									target="_blank"
-									className="link link-info"
-								>
-									OpenTriviaDB
-								</a>
-							</li>
-							<li>
-								<a
-									href="https://the-trivia-api.com/"
-									target="_blank"
-									className="link link-info"
-								>
-									The-Trivia-API
-								</a>
-							</li>
-						</ol>
-					</p>
+					<p className="py-4">All trivia questions are provided by:</p>
+					<ol className="list-disc pl-8 pb-4">
+						<li>
+							<a
+								href="https://opentdb.com/"
+								target="_blank"
+								className="link link-info"
+							>
+								OpenTriviaDB
+							</a>
+						</li>
+						<li>
+							<a
+								href="https://the-trivia-api.com/"
+								target="_blank"
+								className="link link-info"
+							>
+								The-Trivia-API
+							</a>
+						</li>
+					</ol>
 					<p className="pb-5">
 						All trivia questions provided by OpenTriviaDB and The-Trivia-API are
 						licensed under the&nbsp;

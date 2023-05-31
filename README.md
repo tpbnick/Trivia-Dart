@@ -1,5 +1,7 @@
 # Trivia 🎯 (Dart)
 
+![trivia-dart-image](/src/assets/triviadart.webp)
+
 ## Overview
 
 Trivia Dart is a simple Trivia web application that utilizes both the [Open Trivia DB ](https://opentdb.com/) and [The Trivia API](https://the-trivia-api.com/), which both offer generous free API usage.

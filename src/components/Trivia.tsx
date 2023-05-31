@@ -75,6 +75,7 @@ const Trivia = () => {
 	};
 
 	const shuffleArray = (array: string[]) => {
+		// Randomize the possible answers
 		for (let i = array.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
 			[array[i], array[j]] = [array[j], array[i]];
@@ -132,11 +133,6 @@ const Trivia = () => {
 			setLoading(false);
 		}
 	};
-
-	useEffect(() => {
-		handleButtonClick();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [selectedSource, selectedCategory]);
 
 	return (
 		<div className="my-1 flex flex-col items-center pt-10 font-roboto">
