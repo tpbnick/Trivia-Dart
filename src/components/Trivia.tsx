@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 
 const Trivia = () => {
 	const TriviaSource: Record<string, string> = {
