@@ -15,30 +15,26 @@ const About = () => {
 					</label>
 
 					<h3 className="text-2xl font-bold">About</h3>
-					<p className="py-4">All trivia questions are provided by:</p>
-					<ol className="list-disc pl-8 pb-4">
-						<li>
-							<a
-								href="https://opentdb.com/"
-								target="_blank"
-								className="link link-info"
-							>
-								OpenTriviaDB
-							</a>
-						</li>
-						<li>
-							<a
-								href="https://the-trivia-api.com/"
-								target="_blank"
-								className="link link-info"
-							>
-								The-Trivia-API
-							</a>
-						</li>
-					</ol>
-					<p className="pb-5">
-						All trivia questions provided by OpenTriviaDB and The-Trivia-API are
-						licensed under the&nbsp;
+					<p className="pb-5 pt-5">
+						All trivia questions provided by{" "}
+						<a
+							href="https://opentdb.com/"
+							target="_blank"
+							className="link link-info"
+							rel="noopener noreferrer"
+						>
+							OpenTriviaDB{" "}
+						</a>
+						and{" "}
+						<a
+							href="https://the-trivia-api.com/"
+							target="_blank"
+							className="link link-info"
+							rel="noopener noreferrer"
+						>
+							The-Trivia-API{" "}
+						</a>
+						are licensed under the{" "}
 						<a
 							href="https://creativecommons.org/licenses/by-nc/4.0/"
 							target="blank"
@@ -47,6 +43,13 @@ const About = () => {
 							Creative Commons Attribution-NonCommercial 4.0 International License
 						</a>
 						.
+					</p>
+					<p className="pb-5">
+						Questions provided by TriviaDart directly utilize questions found on the
+						open web and are therefore open source and completely free to use. An API
+						may be available in the future for open use. Currently there are no answer
+						options available for the TriviaDart Database, but this may change in the
+						future.
 					</p>
 					<p className="text-center">Made with 🤍 by Nick Platt</p>
 					<a

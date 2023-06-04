@@ -7,10 +7,12 @@ const Trivia = () => {
 	const TriviaSource: Record<string, string> = {
 		"Open Trivia DB": "https://opentdb.com/api.php?amount=1",
 		"The Trivia API": "https://the-trivia-api.com/api/questions?limit=1",
+		TriviaDart: "https://trivia.nickplatt.dev/questions?limit=1",
 	};
 
 	const openTriviaURL = "&category=";
 	const triviaAPIURL = "&categories=";
+	const triviaDartURL = "&category=";
 
 	const triviaDBCategories: Record<string, string> = {
 		Any: "",
@@ -40,6 +42,26 @@ const Trivia = () => {
 		Technology: 18,
 		Television: 14,
 		"Video Games": 15,
+	};
+
+	const triviaDartCategories: Record<string, string> = {
+		Any: "",
+		"Art & Literature": "art_and_literature",
+		Entertainment: "entertainment",
+		"Food & Drink": "food_and_drink",
+		General: "general",
+		Geography: "geography",
+		"History & Holidays": "history_and_holidays",
+		Language: "language",
+		"Math & Geometry": "math_and_geometry",
+		Mathematics: "mathematics",
+		Music: "music",
+		"People & Places": "people_and_places",
+		"Religion & Mythology": "religion_and_mythology",
+		"Science & Nature": "science_and_nature",
+		"Sports & Leisure": "sports_and_leisure",
+		"Tech & Video Games": "tech_and_video_games",
+		"Toys & Games": "toys_and_games",
 	};
 
 	const [selectedSource, setSelectedSource] = useState<string>(
@@ -94,13 +116,20 @@ const Trivia = () => {
 		if (selectedCategory !== "Any") {
 			if (selectedSource === "Open Trivia DB") {
 				triviaURL += openTriviaURL + openTriviaCategories[selectedCategory];
+			} else if (selectedSource === "TriviaDart") {
+				triviaURL += triviaDartURL + triviaDartCategories[selectedCategory];
 			} else {
 				triviaURL += triviaAPIURL + triviaDBCategories[selectedCategory];
 			}
 		}
 
 		try {
-			const response = await fetch(triviaURL);
+			const headers: Record<string, string> = {};
+			if (selectedSource === "TriviaDart") {
+				headers["x-api-key"] = import.meta.env.VITE_TRIVIA_DART_APIKEY;
+			}
+
+			const response = await fetch(triviaURL, { headers });
 			const data = await response.json();
 			if (selectedSource === "Open Trivia DB") {
 				const allAnswers = [
@@ -113,6 +142,17 @@ const Trivia = () => {
 				setQuestion(decodeHTML(data.results[0].question));
 				setAnswer(decodeHTML(data.results[0].correct_answer));
 				setQuestionType(data.results[0].type);
+			} else if (selectedSource === "TriviaDart") {
+				const allAnswers = [
+					decodeHTML(data[0].Answer),
+					...(data[0].wrong_answers
+						? data[0].wrong_answers.map((answer: string) => decodeHTML(answer))
+						: []),
+				];
+				setOptions(shuffleArray(allAnswers));
+				setQuestion(decodeHTML(data[0].Question));
+				setAnswer(decodeHTML(data[0].Answer));
+				setQuestionType(null);
 			} else {
 				const allAnswers = [
 					decodeHTML(data[0].correctAnswer),
@@ -167,6 +207,8 @@ const Trivia = () => {
 						{Object.keys(
 							selectedSource === "Open Trivia DB"
 								? openTriviaCategories
+								: selectedSource === "TriviaDart"
+								? triviaDartCategories
 								: triviaDBCategories
 						).map((category, i) => (
 							<option key={i} value={category}>
@@ -197,11 +239,11 @@ const Trivia = () => {
 					<button
 						onClick={() => setShowOptions((prevShowOptions) => !prevShowOptions)}
 						className={`btn mt-4 text-white font-bold py-2 px-4 rounded mx-auto ${
-							questionType === "boolean"
-								? "cursor-not-allowed opacity-90"
+							questionType === "boolean" || options.length < 2
+								? "cursor-not-allowed opacity-90 hover:"
 								: "btn-outline"
 						}`}
-						disabled={questionType === "boolean"}
+						disabled={questionType === "boolean" || options.length < 2}
 					>
 						{showOptions ? "Hide Options" : "Show Options"}
 					</button>
