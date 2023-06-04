@@ -231,7 +231,7 @@ const Trivia = () => {
 				<label htmlFor="about-modal">
 					<FontAwesomeIcon
 						icon={faGears}
-						className="text-4xl hover:text-green-300 transition-colors duration-200"
+						className="text-4xl hover:text-green-300 transition-all duration-200 transform hover:scale-110"
 					/>
 				</label>
 			</div>
