@@ -239,11 +239,11 @@ const Trivia = () => {
 					<button
 						onClick={() => setShowOptions((prevShowOptions) => !prevShowOptions)}
 						className={`btn mt-4 text-white font-bold py-2 px-4 rounded mx-auto ${
-							questionType === "boolean" || options.length < 2
+							questionType === "boolean" || options.length < 4
 								? "cursor-not-allowed opacity-90 hover:"
 								: "btn-outline"
 						}`}
-						disabled={questionType === "boolean" || options.length < 2}
+						disabled={questionType === "boolean" || options.length < 4}
 					>
 						{showOptions ? "Hide Options" : "Show Options"}
 					</button>
