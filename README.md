@@ -8,9 +8,9 @@
 
 ## Overview
 
-Trivia Dart is a simple Trivia web application that utilizes both the [Open Trivia DB ](https://opentdb.com/) and [The Trivia API](https://the-trivia-api.com/), which both offer generous free API usage.
+TriviaDart is a simple Trivia web application that utilizes both the [Open Trivia DB ](https://opentdb.com/) and [The Trivia API](https://the-trivia-api.com/), which both offer generous free API usage. TriviaDart also has an in-house API that has over 45,000 trivia questions. Currently, there are no options available for these questions, but this will be added in the future. The in-house API utilizes MongoDB and ExpressJS.
 
-Trivia Dart allows you to select either of the above mentioned APIs, a category (`Any` by default), and the ability to show multiple choice options if you are stuck!
+TriviaDart allows you to select either of the above mentioned APIs, a category (`Any` by default), and the ability to show multiple choice options if you are stuck!
 
 ## Technology Used
 
