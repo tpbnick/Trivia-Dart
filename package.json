@@ -4,9 +4,9 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"predev": "if defined ComSpec (for /f %i in ('git rev-parse --short HEAD') do echo VITE_GIT_SHA=%i > .env.local) else echo VITE_GIT_SHA=$(git rev-parse --short HEAD) > .env.local",
+		"predev": "node set-commit-hash.js",
 		"dev": "dotenv -- vite",
-		"prebuild": "if defined ComSpec (for /f %%i in ('git rev-parse --short HEAD') do echo VITE_GIT_SHA=%%i > .env.local) else echo VITE_GIT_SHA=$(git rev-parse --short HEAD) > .env.local",
+		"prebuild": "node set-commit-hash.js",
 		"build": "dotenv-cli -- tsc && dotenv-cli -- vite build",
 		"lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview"
