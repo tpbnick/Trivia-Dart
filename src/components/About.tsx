@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
+import { faCodeMerge } from "@fortawesome/free-solid-svg-icons";
 
 const About = () => {
 	return (
@@ -46,10 +46,9 @@ const About = () => {
 					</p>
 					<p className="pb-5">
 						Questions provided by TriviaDart directly utilize questions found on the
-						open web and are therefore open source and completely free to use. An API
-						may be available in the future for open use. Currently there are no answer
-						options available for the TriviaDart Database, but this may change in the
-						future.
+						open web and are therefore open source and completely free to use.
+						Currently there are no answer options available for the TriviaDart
+						Database, but this may change in the future.
 					</p>
 					<p className="text-center">Made with 🤍 by Nick Platt</p>
 					<a
@@ -64,7 +63,7 @@ const About = () => {
 						/>
 					</a>
 					<p className="pb-5 text-center">
-						Build Version:{" "}
+						Latest Commit:{" "}
 						<a
 							href={`https://github.com/tpbnick/trivia-app/commit/${
 								import.meta.env.VITE_GIT_SHA
@@ -73,8 +72,9 @@ const About = () => {
 							rel="noopener noreferrer"
 							className="link link-info"
 						>
-							{import.meta.env.VITE_GIT_SHA} <FontAwesomeIcon icon={faCodeBranch} />
+							{import.meta.env.VITE_GIT_SHA} <FontAwesomeIcon icon={faCodeMerge} />
 						</a>
+						<p>Built: {import.meta.env.VITE_BUILD_DATE}</p>
 					</p>
 				</label>
 			</label>
