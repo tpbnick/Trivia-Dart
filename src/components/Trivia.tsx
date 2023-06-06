@@ -131,6 +131,7 @@ const Trivia = () => {
 
 			const response = await fetch(triviaURL, { headers });
 			const data = await response.json();
+			let questionText;
 			if (selectedSource === "Open Trivia DB") {
 				const allAnswers = [
 					decodeHTML(data.results[0].correct_answer),
@@ -139,7 +140,7 @@ const Trivia = () => {
 					),
 				];
 				setOptions(shuffleArray(allAnswers));
-				setQuestion(decodeHTML(data.results[0].question));
+				questionText = decodeHTML(data.results[0].question);
 				setAnswer(decodeHTML(data.results[0].correct_answer));
 				setQuestionType(data.results[0].type);
 			} else if (selectedSource === "TriviaDart") {
@@ -150,7 +151,7 @@ const Trivia = () => {
 						: []),
 				];
 				setOptions(shuffleArray(allAnswers));
-				setQuestion(decodeHTML(data[0].Question));
+				questionText = decodeHTML(data[0].Question);
 				setAnswer(decodeHTML(data[0].Answer));
 				setQuestionType(null);
 			} else {
@@ -159,10 +160,19 @@ const Trivia = () => {
 					...data[0].incorrectAnswers.map((answer: string) => decodeHTML(answer)),
 				];
 				setOptions(shuffleArray(allAnswers));
-				setQuestion(decodeHTML(data[0].question));
+				questionText = decodeHTML(data[0].question);
 				setAnswer(decodeHTML(data[0].correctAnswer));
 				setQuestionType(null);
 			}
+
+			// Check if the question ends with a question mark (TriviaDart sometimes doesn't) or period
+			questionText = questionText.trim();
+
+			if (questionText.slice(-1) !== "?" && questionText.slice(-1) !== ".") {
+				questionText += "?";
+			}
+
+			setQuestion(questionText);
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				setError(error.toString());
