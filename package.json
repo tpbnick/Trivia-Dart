@@ -7,7 +7,7 @@
 		"predev": "node set-commit-hash.js",
 		"dev": "dotenv -- vite",
 		"prebuild": "node set-commit-hash.js",
-		"build": "dotenv-cli -- tsc && dotenv-cli -- vite build",
+		"build": "dotenv -- tsc && dotenv -- vite build",
 		"lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview"
 	},
