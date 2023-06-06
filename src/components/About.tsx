@@ -56,11 +56,14 @@ const About = () => {
 						href="https://github.com/tpbnick/trivia-app"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="flex justify-center text-4xl pt-3 hover:text-green-300 transition-all duration-200 transform hover:scale-110"
+						className="flex justify-center text-4xl pt-3 pb-5"
 					>
-						<FontAwesomeIcon icon={faGithub} />
+						<FontAwesomeIcon
+							icon={faGithub}
+							className="hover:text-green-300 transition-all duration-200 transform hover:scale-110"
+						/>
 					</a>
-					<p className="pt-10 text-center">
+					<p className="pb-5 text-center">
 						Build Version:{" "}
 						<a
 							href={`https://github.com/tpbnick/trivia-app/commit/${
