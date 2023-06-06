@@ -1,40 +1,44 @@
 {
-  "name": "trivia-app",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.4.0",
-    "@fortawesome/free-brands-svg-icons": "^6.4.0",
-    "@fortawesome/free-solid-svg-icons": "^6.4.0",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "@tailwindcss/aspect-ratio": "^0.4.2",
-    "@tailwindcss/forms": "^0.5.3",
-    "@tailwindcss/typography": "^0.5.9",
-    "autoprefixer": "^10.4.14",
-    "daisyui": "^2.52.0",
-    "dotenv": "^16.1.4",
-    "postcss": "^8.4.24",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwindcss": "^3.3.2"
-  },
-  "devDependencies": {
-    "@types/react": "^18.0.37",
-    "@types/react-dom": "^18.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.59.0",
-    "@typescript-eslint/parser": "^5.59.0",
-    "@vitejs/plugin-react": "^4.0.0",
-    "eslint": "^8.38.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.3.4",
-    "typescript": "^5.0.2",
-    "vite": "^4.3.9"
-  }
+	"name": "trivia-app",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"predev": "if defined ComSpec (for /f %i in ('git rev-parse --short HEAD') do echo VITE_GIT_SHA=%i > .env.local) else echo VITE_GIT_SHA=$(git rev-parse --short HEAD) > .env.local",
+		"dev": "dotenv -- vite",
+		"prebuild": "if defined ComSpec (for /f %%i in ('git rev-parse --short HEAD') do echo VITE_GIT_SHA=%%i > .env.local) else echo VITE_GIT_SHA=$(git rev-parse --short HEAD) > .env.local",
+		"build": "dotenv-cli -- tsc && dotenv-cli -- vite build",
+		"lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^6.4.0",
+		"@fortawesome/free-brands-svg-icons": "^6.4.0",
+		"@fortawesome/free-solid-svg-icons": "^6.4.0",
+		"@fortawesome/react-fontawesome": "^0.2.0",
+		"@tailwindcss/aspect-ratio": "^0.4.2",
+		"@tailwindcss/forms": "^0.5.3",
+		"@tailwindcss/typography": "^0.5.9",
+		"autoprefixer": "^10.4.14",
+		"daisyui": "^2.52.0",
+		"dotenv": "^16.1.4",
+		"postcss": "^8.4.24",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"tailwindcss": "^3.3.2"
+	},
+	"devDependencies": {
+		"@types/react": "^18.0.37",
+		"@types/react-dom": "^18.0.11",
+		"@typescript-eslint/eslint-plugin": "^5.59.0",
+		"@typescript-eslint/parser": "^5.59.0",
+		"@vitejs/plugin-react": "^4.0.0",
+		"cross-env": "^7.0.3",
+		"dotenv-cli": "^7.2.1",
+		"eslint": "^8.38.0",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-react-refresh": "^0.3.4",
+		"typescript": "^5.0.2",
+		"vite": "^4.3.9"
+	}
 }

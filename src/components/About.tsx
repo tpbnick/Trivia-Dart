@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 
 const About = () => {
 	return (
@@ -13,7 +14,6 @@ const About = () => {
 					>
 						✕
 					</label>
-
 					<h3 className="text-2xl font-bold">About</h3>
 					<p className="pb-5 pt-5">
 						All trivia questions provided by{" "}
@@ -60,6 +60,19 @@ const About = () => {
 					>
 						<FontAwesomeIcon icon={faGithub} />
 					</a>
+					<p className="pt-10 text-center">
+						Build Version:{" "}
+						<a
+							href={`https://github.com/tpbnick/trivia-app/commit/${
+								import.meta.env.VITE_GIT_SHA
+							}`}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="link link-info"
+						>
+							{import.meta.env.VITE_GIT_SHA} <FontAwesomeIcon icon={faCodeBranch} />
+						</a>
+					</p>
 				</label>
 			</label>
 		</div>
