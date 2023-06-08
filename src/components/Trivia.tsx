@@ -2,6 +2,7 @@ import { useState, ChangeEvent } from "react";
 import About from "./About";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGears } from "@fortawesome/free-solid-svg-icons";
+import toast, { Toaster } from "react-hot-toast";
 
 const Trivia = () => {
 	const TriviaSource: Record<string, string> = {
@@ -63,6 +64,8 @@ const Trivia = () => {
 		"Tech & Video Games": "tech_and_video_games",
 		"Toys & Games": "toys_and_games",
 	};
+
+	const errorNotification = () => toast.error("Error loading data from API.");
 
 	const [selectedSource, setSelectedSource] = useState<string>(
 		Object.keys(TriviaSource)[0]
@@ -175,8 +178,10 @@ const Trivia = () => {
 			setQuestion(questionText);
 		} catch (error: unknown) {
 			if (error instanceof Error) {
+				errorNotification();
 				setError(error.toString());
 			} else {
+				errorNotification();
 				setError("An unknown error occurred.");
 			}
 		} finally {
@@ -186,6 +191,7 @@ const Trivia = () => {
 
 	return (
 		<div className="my-1 flex flex-col items-center pt-10 font-roboto">
+			<Toaster />
 			<div className="pt-3 pb-5 text-5xl font-roboto-mono">Trivia🎯</div>
 			<div className="flex py-4">
 				<div className="form-control w-full max-w-xs">
@@ -241,7 +247,7 @@ const Trivia = () => {
 					<div className="w-12 h-12 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
 				</div>
 			)}
-			{error && <p className="text-center">Error: {error}</p>}
+			{error && <p className="text-center pt-5">Error: {error}</p>}
 			{question && (
 				<div className="mt-4 text-center">
 					{questionType === "boolean" && <p>True or False:</p>}
