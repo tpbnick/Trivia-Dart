@@ -1,14 +1,15 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { useState, ChangeEvent } from "react";
 import About from "./About";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGears } from "@fortawesome/free-solid-svg-icons";
-import toast, { Toaster } from "react-hot-toast";
+import { supabase } from "./SupaBase";
 
 const Trivia = () => {
 	const TriviaSource: Record<string, string> = {
 		"Open Trivia DB": "https://opentdb.com/api.php?amount=1",
 		"The Trivia API": "https://the-trivia-api.com/api/questions?limit=1",
-		TriviaDart: "https://trivia.nickplatt.dev/questions?limit=1",
+		TriviaDart: "",
 	};
 
 	const openTriviaURL = "&category=";
@@ -65,8 +66,6 @@ const Trivia = () => {
 		"Toys & Games": "toys_and_games",
 	};
 
-	const errorNotification = () => toast.error("Error loading data from API.");
-
 	const [selectedSource, setSelectedSource] = useState<string>(
 		Object.keys(TriviaSource)[0]
 	);
@@ -108,6 +107,24 @@ const Trivia = () => {
 		return array;
 	};
 
+	const addQuestionMarkToEnd = (text: string) => {
+		// Check if the text already ends with a question mark
+		text = text.trimEnd();
+
+		if (text.endsWith("?")) {
+			return text;
+		}
+
+		// If the text ends with other punctuation, remove it and add a question mark
+		const lastChar = text.charAt(text.length - 1);
+		if (/[.,!]/.test(lastChar)) {
+			return text.slice(0, -1) + "?";
+		}
+
+		// If no punctuation is found at the end, simply add a question mark
+		return text + "?";
+	};
+
 	const handleButtonClick = async () => {
 		setLoading(true);
 		setShowAnswer(false);
@@ -127,61 +144,82 @@ const Trivia = () => {
 		}
 
 		try {
-			const headers: Record<string, string> = {};
+			setLoading(true);
+			setShowAnswer(false);
+			setShowOptions(false);
+			setError(null);
+			setQuestion(null);
+
 			if (selectedSource === "TriviaDart") {
-				headers["x-api-key"] = import.meta.env.VITE_TRIVIA_DART_APIKEY;
-			}
+				const { data, error } = await supabase
+					.from("questions")
+					.select("question, answer, incorrect_answers, category"); // Include the 'category' field
 
-			const response = await fetch(triviaURL, { headers });
-			const data = await response.json();
-			let questionText;
-			if (selectedSource === "Open Trivia DB") {
-				const allAnswers = [
-					decodeHTML(data.results[0].correct_answer),
-					...data.results[0].incorrect_answers.map((answer: string) =>
-						decodeHTML(answer)
-					),
-				];
-				setOptions(shuffleArray(allAnswers));
-				questionText = decodeHTML(data.results[0].question);
-				setAnswer(decodeHTML(data.results[0].correct_answer));
-				setQuestionType(data.results[0].type);
-			} else if (selectedSource === "TriviaDart") {
-				const allAnswers = [
-					decodeHTML(data[0].Answer),
-					...(data[0].wrong_answers
-						? data[0].wrong_answers.map((answer: string) => decodeHTML(answer))
-						: []),
-				];
-				setOptions(shuffleArray(allAnswers));
-				questionText = decodeHTML(data[0].Question);
-				setAnswer(decodeHTML(data[0].Answer));
-				setQuestionType(null);
+				if (error) {
+					throw new Error("Error fetching data from SupaBase");
+				}
+
+				const filteredData = data.filter(
+					(item) =>
+						selectedCategory === "Any" ||
+						item.category === triviaDartCategories[selectedCategory]
+				);
+
+				if (filteredData.length > 0) {
+					const randomIndex = Math.floor(Math.random() * filteredData.length);
+					const triviaData = filteredData[randomIndex];
+
+					const allAnswers = [
+						decodeHTML(triviaData.answer),
+						...(triviaData.incorrect_answers
+							? triviaData.incorrect_answers.map((answer: string) =>
+									decodeHTML(answer)
+							  )
+							: []),
+					];
+					setOptions(shuffleArray(allAnswers));
+					setQuestion(addQuestionMarkToEnd(decodeHTML(triviaData.question)));
+					setAnswer(decodeHTML(triviaData.answer));
+					setQuestionType(null);
+				} else {
+					setQuestion("No questions found for this category.");
+				}
 			} else {
-				const allAnswers = [
-					decodeHTML(data[0].correctAnswer),
-					...data[0].incorrectAnswers.map((answer: string) => decodeHTML(answer)),
-				];
-				setOptions(shuffleArray(allAnswers));
-				questionText = decodeHTML(data[0].question);
-				setAnswer(decodeHTML(data[0].correctAnswer));
-				setQuestionType(null);
+				const headers: Record<string, string> = {};
+				if (selectedSource === "TriviaDart") {
+					headers["x-api-key"] = import.meta.env.VITE_TRIVIA_DART_APIKEY;
+				}
+
+				const response = await fetch(triviaURL, { headers });
+				const data = await response.json();
+				if (selectedSource === "Open Trivia DB") {
+					const allAnswers = [
+						decodeHTML(data.results[0].correct_answer),
+						...data.results[0].incorrect_answers.map((answer: string) =>
+							decodeHTML(answer)
+						),
+					];
+					setOptions(shuffleArray(allAnswers));
+					setQuestion(decodeHTML(data.results[0].question));
+					setAnswer(decodeHTML(data.results[0].correct_answer));
+					setQuestionType(data.results[0].type);
+				} else if (selectedSource === "TriviaDart") {
+					// TriviaDart code was already handled above, so no need to repeat here
+				} else {
+					const allAnswers = [
+						decodeHTML(data[0].correctAnswer),
+						...data[0].incorrectAnswers.map((answer: string) => decodeHTML(answer)),
+					];
+					setOptions(shuffleArray(allAnswers));
+					setQuestion(decodeHTML(data[0].question));
+					setAnswer(decodeHTML(data[0].correctAnswer));
+					setQuestionType(null);
+				}
 			}
-
-			// Check if the question ends with a question mark (TriviaDart sometimes doesn't) or period
-			questionText = questionText.trim();
-
-			if (questionText.slice(-1) !== "?" && questionText.slice(-1) !== ".") {
-				questionText += "?";
-			}
-
-			setQuestion(questionText);
 		} catch (error: unknown) {
 			if (error instanceof Error) {
-				errorNotification();
 				setError(error.toString());
 			} else {
-				errorNotification();
 				setError("An unknown error occurred.");
 			}
 		} finally {
@@ -191,7 +229,6 @@ const Trivia = () => {
 
 	return (
 		<div className="my-1 flex flex-col items-center pt-10 font-roboto">
-			<Toaster />
 			<div className="pt-3 pb-5 text-5xl font-roboto-mono">Trivia🎯</div>
 			<div className="flex py-4">
 				<div className="form-control w-full max-w-xs">
@@ -247,7 +284,7 @@ const Trivia = () => {
 					<div className="w-12 h-12 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
 				</div>
 			)}
-			{error && <p className="text-center pt-5">Error: {error}</p>}
+			{error && <p className="text-center">Error: {error}</p>}
 			{question && (
 				<div className="mt-4 text-center">
 					{questionType === "boolean" && <p>True or False:</p>}
