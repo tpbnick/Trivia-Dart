@@ -1,8 +1,9 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { useState, ChangeEvent } from "react";
 import About from "./About";
+import Settings from "./Settings";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGears } from "@fortawesome/free-solid-svg-icons";
+import { faCircleQuestion, faGears } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "./SupaBase";
 
 const Trivia = () => {
@@ -228,8 +229,8 @@ const Trivia = () => {
 	};
 
 	return (
-		<div className="my-1 flex flex-col items-center pt-10 font-roboto">
-			<div className="pt-3 pb-5 text-5xl font-roboto-mono">Trivia🎯</div>
+		<div className="my-1 flex flex-col items-center pt-10">
+			<div className="pt-3 pb-5 text-5xl font-mono">Trivia🎯</div>
 			<div className="flex py-4">
 				<div className="form-control w-full max-w-xs">
 					<label className="label">
@@ -274,27 +275,27 @@ const Trivia = () => {
 
 			<button
 				onClick={handleButtonClick}
-				className="btn mt-4 py-4 btn-outline text-white font-bold px-4 rounded mx-auto"
+				className="btn btn-primary mt-4 py-4 text font-bold px-4 rounded mx-auto"
 			>
 				Get Question
 			</button>
 
 			{loading && (
 				<div className="flex justify-center items-center pt-4">
-					<div className="w-12 h-12 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+					<div className="w-12 h-12 border-t-2 border-b-2 border-primary rounded-full animate-spin"></div>
 				</div>
 			)}
 			{error && <p className="text-center">Error: {error}</p>}
 			{question && (
 				<div className="mt-4 text-center">
 					{questionType === "boolean" && <p>True or False:</p>}
-					<p className="text-white w-80 mx-auto text-xl">{question}</p>
+					<p className="text w-80 mx-auto text-xl">{question}</p>
 					<button
 						onClick={() => setShowOptions((prevShowOptions) => !prevShowOptions)}
-						className={`btn mt-4 text-white font-bold py-2 px-4 rounded mx-auto ${
+						className={`btn btn-secondary mt-4 text-white font-bold py-2 px-4 rounded mx-auto ${
 							questionType === "boolean" || options.length < 4
 								? "cursor-not-allowed opacity-90 hover:"
-								: "btn-outline"
+								: "btn"
 						}`}
 						disabled={questionType === "boolean" || options.length < 4}
 					>
@@ -304,7 +305,7 @@ const Trivia = () => {
 					{showOptions && (
 						<div className="py-5">
 							{options.map((option, index) => (
-								<p key={index} className="text-white">
+								<p key={index} className="text">
 									{option}
 								</p>
 							))}
@@ -313,20 +314,29 @@ const Trivia = () => {
 					<div className="py-5">
 						<button
 							onClick={() => setShowAnswer(true)}
-							className="btn btn-outline btn-success text-white font-bold py-2 px-4 rounded mx-auto"
+							className="btn btn-accent text font-bold py-2 px-4 rounded mx-auto"
 						>
 							Show Answer
 						</button>
 					</div>
-					{showAnswer && <p className="text-white text-xl">{answer}</p>}
+					{showAnswer && <p className="text text-xl">{answer}</p>}
 				</div>
 			)}
 			<About />
+			<Settings />
 			<div className="fixed bottom-0 right-0 p-5">
 				<label htmlFor="about-modal">
 					<FontAwesomeIcon
+						icon={faCircleQuestion}
+						className="text-4xl hover:text-primary transition-all duration-200 transform hover:scale-110"
+					/>
+				</label>
+			</div>
+			<div className="fixed bottom-0 right-12 p-5">
+				<label htmlFor="settings-modal">
+					<FontAwesomeIcon
 						icon={faGears}
-						className="text-4xl hover:text-green-300 transition-all duration-200 transform hover:scale-110"
+						className="text-4xl hover:text-primary transition-all duration-200 transform hover:scale-110"
 					/>
 				</label>
 			</div>

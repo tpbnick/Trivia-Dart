@@ -59,7 +59,7 @@ const About = () => {
 					>
 						<FontAwesomeIcon
 							icon={faGithub}
-							className="hover:text-green-300 transition-all duration-200 transform hover:scale-110"
+							className="hover:text-secondary transition-all duration-200 transform hover:scale-110"
 						/>
 					</a>
 					<p className="pb-5 text-center">

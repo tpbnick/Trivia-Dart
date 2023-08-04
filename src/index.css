@@ -3,8 +3,6 @@
 @import "tailwindcss/utilities";
 
 :root {
-	background-color: #2d313b;
-
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
