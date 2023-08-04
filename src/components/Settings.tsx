@@ -128,12 +128,20 @@ const Settings = () => {
 						<label className="label">
 							<span className="label-text">Change font size:</span>
 						</label>
-						<div>
-							<button type="button" onClick={() => handleFontSizeChange("decrement")}>
+						<div className="flex items-center">
+							<button
+								type="button"
+								onClick={() => handleFontSizeChange("decrement")}
+								className="btn btn-sm btn-secondary text-xl flex items-center justify-center w-8 h-8"
+							>
 								-
 							</button>
-							<span className="mx-2">{currentFontSize}</span>
-							<button type="button" onClick={() => handleFontSizeChange("increment")}>
+							<span className="mx-2 text-xl">{currentFontSize}</span>
+							<button
+								type="button"
+								onClick={() => handleFontSizeChange("increment")}
+								className="btn btn-sm btn-secondary text-xl flex items-center justify-center w-8 h-8"
+							>
 								+
 							</button>
 						</div>
