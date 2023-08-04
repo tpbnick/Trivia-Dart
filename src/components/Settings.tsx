@@ -31,11 +31,11 @@ const Settings = () => {
 	const [currentFont, setCurrentFont] = useState(storedFont);
 
 	const storedFontSize = parseInt(
-		localStorage.getItem("selectedFontSize") || "12",
+		localStorage.getItem("selectedFontSize") || "16",
 		10
 	);
 	const [currentFontSize, setCurrentFontSize] = useState<number>(
-		storedFontSize || 12
+		storedFontSize || 16
 	);
 
 	const capitalizeFirstLetter = (str: string) => {
