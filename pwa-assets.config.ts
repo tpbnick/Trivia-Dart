@@ -5,5 +5,10 @@ import {
 
 export default defineConfig({
 	preset,
-	images: ["public/dart.webp"],
+	images: [
+		"public/dart.webp",
+		"public/dart.ico",
+		"public/dart.svg",
+		"public/dart.png",
+	],
 });
