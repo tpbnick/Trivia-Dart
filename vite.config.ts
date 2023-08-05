@@ -15,12 +15,12 @@ export default defineConfig({
       display: 'standalone',
       icons: [
         {
-          src: 'src/assets/dart.webp',
+          src: 'public/dart.webp',
           sizes: '192x192',
           type: 'image/webp'
         },
         {
-          src: 'src/assets/dart.webp',
+          src: 'public/dart.webp',
           sizes: '512x512',
           type: 'image/webp'
         }
