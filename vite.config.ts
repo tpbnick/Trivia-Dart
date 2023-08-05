@@ -1,31 +1,46 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-  plugins: [react(), VitePWA({ 
-    registerType: 'autoUpdate', devOptions: {
-    enabled: true
-    },
-    includeAssets: [],
-    manifest: {
-      name: 'TriviaDart',
-      short_name: 'Trivia🎯',
-      description: 'Simple Trivia Application',
-      display: 'standalone',
-      icons: [
-        {
-          src: 'public/dart.webp',
-          sizes: '192x192',
-          type: 'image/webp'
-        },
-        {
-          src: 'public/dart.webp',
-          sizes: '512x512',
-          type: 'image/webp'
-        }
-      ],
-      background_color: '#000000',
-    } 
-  })],
-})
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true,
+      },
+      manifest: {
+        name: 'TriviaDart',
+        short_name: 'Trivia🎯',
+        description: 'Simple Trivia Application',
+        display: 'standalone',
+        background_color: '#000000',
+        icons: [
+          {
+            src: 'pwa-64x64.png',
+            sizes: '64x64',
+            type: 'image/png',
+          },
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: 'maskable-icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+        ],
+      },
+    }),
+  ],
+});
