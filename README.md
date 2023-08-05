@@ -1,6 +1,7 @@
 # Trivia 🎯 (Dart)
 
 <p align="center">
+
 ![trivia-dart-image](/src/assets/triviadart.webp)<br>
 
 <a href="https://triviadart.com"><img src="public/pwa.svg" height="45"></a><br>
