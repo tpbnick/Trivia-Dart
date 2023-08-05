@@ -5,5 +5,5 @@ import {
 
 export default defineConfig({
 	preset,
-	images: ["src/assets/dart.webp"],
+	images: ["public/dart.webp"],
 });
