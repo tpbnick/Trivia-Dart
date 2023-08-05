@@ -1,4 +1,4 @@
-# Trivia 🎯 (Dart)
+# Trivia🎯 (TriviaDart)
 
 <div align="center">
 
