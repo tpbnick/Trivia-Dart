@@ -1,6 +1,6 @@
 # Trivia 🎯 (Dart)
 
-<p align="center">
+<div align="center">
 
 ![trivia-dart-image](/src/assets/triviadart.webp)<br>
 
@@ -8,7 +8,8 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/6cb91f4b-93fe-4ac1-b7e0-417c39c7a2c4/deploy-status)](https://app.netlify.com/sites/triviadart/deploys)
 
-</p>
+</div>
+
 ## Overview
 
 TriviaDart is a simple Trivia web application that utilizes both the [Open Trivia DB ](https://opentdb.com/) and [The Trivia API](https://the-trivia-api.com/), which both offer generous free API usage. TriviaDart also has an in-house API that has over 45,000 trivia questions. Currently, there are no options available for these questions, but this will be added in the future. The in-house API utilizes Supabase.
@@ -37,11 +38,12 @@ Note: Chromium-based browsers work best for installation of PWAs.
 
 ## Technology Used
 
-- React
-- TypeScript
-- TailwindCSS
-- DaisyUI
-- VitePWA
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [DaisyUI](https://daisyui.com/)
+- [VitePWA](https://github.com/vite-pwa/vite-plugin-pwa)
+- [Supabase](https://supabase.com/)
 
 ## Misc.
 
