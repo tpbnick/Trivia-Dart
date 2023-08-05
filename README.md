@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![trivia-dart-image](/src/assets/triviadart.webp)<br>
+![trivia-dart-image](/src/assets/triviadart.png)<br>
 
 <a href="https://triviadart.com" target="_blank"><img src="public/pwa.svg" height="45"></a><br>
 
