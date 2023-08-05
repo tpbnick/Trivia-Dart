@@ -14,16 +14,17 @@ export default defineConfig({
       description: 'Simple Trivia Application',
       icons: [
         {
-          src: '/src/assets/dart.webp',
+          src: 'src/assets/dart.webp',
           sizes: '192x192',
           type: 'image/webp'
         },
         {
-          src: '/src/assets/dart.webp',
+          src: 'src/assets/dart.webp',
           sizes: '512x512',
           type: 'image/webp'
         }
-      ]
+      ],
+      background_color: '#000000',
     } 
   })],
 })
