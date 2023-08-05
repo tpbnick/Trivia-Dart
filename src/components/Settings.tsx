@@ -57,7 +57,7 @@ const Settings = () => {
 	};
 
 	const handleFontSizeChange = (action: "increment" | "decrement") => {
-		let newFontSize = currentFontSize || 12; // Default to 12 if currentFontSize is undefined
+		let newFontSize = currentFontSize || 12;
 
 		if (action === "increment") {
 			newFontSize += 2;
