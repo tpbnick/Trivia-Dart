@@ -12,6 +12,7 @@ export default defineConfig({
       name: 'TriviaDart',
       short_name: 'Trivia🎯',
       description: 'Simple Trivia Application',
+      display: 'standalone',
       icons: [
         {
           src: 'src/assets/dart.webp',
