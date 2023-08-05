@@ -4,7 +4,7 @@
 
 ![trivia-dart-image](/src/assets/triviadart.webp)<br>
 
-<a href="https://triviadart.com"><img src="public/pwa.svg" height="45"></a><br>
+<a href="https://triviadart.com" target="_blank"><img src="public/pwa.svg" height="45"></a><br>
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/6cb91f4b-93fe-4ac1-b7e0-417c39c7a2c4/deploy-status)](https://app.netlify.com/sites/triviadart/deploys)
 
@@ -35,6 +35,30 @@ You are able to install TriviaDart as a Progressive Web Application (PWA) on any
 4. If you are on Android, click on the settings button, then click "Install".
 
 Note: Chromium-based browsers work best for installation of PWAs.
+
+## Development
+
+1. Clone this repo locally: `git clone https://github.com/tpbnick/trivia-app.git`.
+2. Run `npm install` to install dependencies.
+3. Run `npm run dev` to start up the application.
+
+If you want to use Supabase to run your own trivia database, you can create a database and a `.env` file in the root of this project. Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_APIKEY` to the `.env` for the SupaBase.ts file to load correctly. My personall database is setup with the table name `questions`, and the following columns:
+
+| Column Name         | Data Type |
+| ------------------- | --------- |
+| `id`                | int4      |
+| `category`          | text      |
+| `question`          | text      |
+| `answer`            | text      |
+| `incorrect_answers` | text[]    |
+
+The data inside the `incorrect_answers` is formatted as follows (Note: there must be three wrong answers for the Trivia.tsx component to render correctly):
+
+```json
+["wrong answer 1", "wrong answer 2", "wrong answer 3"]
+```
+
+I personally host this web application on [Netlify](https://netlify.com), which will automatically build any time I make a push/merge to the `master` branch.
 
 ## Technology Used
 
