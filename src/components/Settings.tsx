@@ -2,27 +2,22 @@ import { ChangeEvent, useEffect, useState } from "react";
 
 const Settings = () => {
 	const availableThemes = [
-		"light",
 		"dark",
-		"business",
-		"dracula",
-		"night",
-		"wireframe",
-		"corporate",
-		"emerald",
+		"light",
 		"aqua",
-		"synthwave",
+		"black",
+		"business",
+		"cmyk",
 		"cyberpunk",
+		"dracula",
+		"emerald",
+		"night",
+		"synthwave",
 		"valentine",
+		"wireframe",
 	];
 
-	const availableFonts = [
-		"Cambria",
-		"Monospace",
-		"Roboto",
-		"Times New Roman",
-		"Segoe UI",
-	];
+	const availableFonts = ["Cambria", "Monospace", "Roboto", "Times New Roman"];
 
 	const storedTheme = localStorage.getItem("selectedTheme") || "dark";
 	const [currentTheme, setCurrentTheme] = useState(storedTheme);

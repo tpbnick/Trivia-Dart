@@ -40,11 +40,11 @@ Note: Chromium-based browsers work best for installation of PWAs.
 
 ## Development
 
-1. Clone this repo locally: `git clone https://github.com/tpbnick/trivia-app.git`.
+1. Clone this repo locally: `git clone https://github.com/tpbnick/Trivia-Dart.git`.
 2. Run `npm install` to install dependencies.
 3. Run `npm run dev` to start up the application.
 
-If you want to use Supabase to run your own trivia database, you can create a database and a `.env` file in the root of this project. Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_APIKEY` to the `.env` for the SupaBase.ts file to load correctly. My personall database is setup with the table name `questions`, and the following columns:
+If you want to use Supabase to run your own trivia database, you can create a database and a `.env` file in the root of this project. Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_APIKEY` to the `.env` for the SupaBase.ts file to load correctly. The TriviaDart database is setup with the table name `questions`, and the following columns:
 
 | Column Name         | Data Type |
 | ------------------- | --------- |
