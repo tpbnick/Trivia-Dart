@@ -16,6 +16,8 @@ TriviaDart is a simple Trivia web application that utilizes both the [Open Trivi
 
 TriviaDart allows you to select one of the above mentioned APIs, a category (`Any` by default), and the ability to show multiple choice options if you are stuck!
 
+Themes! There are many themes and fonts available for you to customize TriviaDart to your preference. Simply click/press on the settings icon in the bottom right of the screen.
+
 ## Install
 
 You are able to install TriviaDart as a Progressive Web Application (PWA) on any modern device. This will allow the application to be "installed" and appear like any other application on your phone/tablet/desktop. To install TriviaDart as a PWA, follow these steps:
@@ -58,11 +60,11 @@ The data inside the `incorrect_answers` is formatted as follows (Note: there mus
 ["wrong answer 1", "wrong answer 2", "wrong answer 3"]
 ```
 
-I personally host this web application on [Netlify](https://netlify.com), which will automatically build any time I make a push/merge to the `master` branch.
+I personally host this web application on [Netlify](https://netlify.com), which will automatically build any time I make a push/merge to the `master` branch. Make sure to add the environment variables to your deployments on your preferred hosting provider.
 
 ## Technology Used
 
-- [React](https://react.dev/)
+- [React](https://react.dev/) + [Vite](https://vitejs.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [TailwindCSS](https://tailwindcss.com/)
 - [DaisyUI](https://daisyui.com/)
