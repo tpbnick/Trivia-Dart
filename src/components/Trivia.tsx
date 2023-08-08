@@ -54,10 +54,7 @@ const Trivia = () => {
 		"Food & Drink": "food_and_drink",
 		General: "general",
 		Geography: "geography",
-		"History & Holidays": "history_and_holidays",
 		Language: "language",
-		"Math & Geometry": "math_and_geometry",
-		Mathematics: "mathematics",
 		Music: "music",
 		"People & Places": "people_and_places",
 		"Religion & Mythology": "religion_and_mythology",
@@ -80,15 +77,19 @@ const Trivia = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
 
-	const handleSourceChange = (event: ChangeEvent<HTMLSelectElement>) => {
-		setSelectedSource(event.target.value);
+	const handleSourceChange = ({
+		target: { value },
+	}: ChangeEvent<HTMLSelectElement>) => {
+		setSelectedSource(value);
 		setSelectedCategory("Any");
 		setShowAnswer(false);
 		setShowOptions(false);
 	};
 
-	const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
-		setSelectedCategory(event.target.value);
+	const handleCategoryChange = ({
+		target: { value },
+	}: ChangeEvent<HTMLSelectElement>) => {
+		setSelectedCategory(value);
 		setShowAnswer(false);
 		setShowOptions(false);
 	};
@@ -99,31 +100,23 @@ const Trivia = () => {
 		return txt.value;
 	};
 
-	const shuffleArray = (array: string[]) => {
-		// Randomize the possible answers
-		for (let i = array.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1));
-			[array[i], array[j]] = [array[j], array[i]];
-		}
-		return array;
+	const shuffleAnswers = (array: string[]) => {
+		return array.sort(() => Math.random() - 0.5);
 	};
 
 	const addQuestionMarkToEnd = (text: string) => {
 		// Check if the text already ends with a question mark
-		text = text.trimEnd();
-
+		text = text.trim();
 		if (text.endsWith("?")) {
 			return text;
 		}
-
 		// If the text ends with other punctuation, remove it and add a question mark
 		const lastChar = text.charAt(text.length - 1);
 		if (/[.,!]/.test(lastChar)) {
 			return text.slice(0, -1) + "?";
 		}
-
-		// If no punctuation is found at the end, simply add a question mark
-		return text + "?";
+		// If no punctuation is found at the end, add a question mark
+		return text.trimEnd() + "?";
 	};
 
 	const handleButtonClick = async () => {
@@ -154,7 +147,7 @@ const Trivia = () => {
 			if (selectedSource === "TriviaDart") {
 				const { data, error } = await supabase
 					.from("questions")
-					.select("question, answer, incorrect_answers, category"); // Include the 'category' field
+					.select("question, answer, incorrect_answers, category");
 
 				if (error) {
 					throw new Error("Error fetching data from SupaBase");
@@ -178,7 +171,7 @@ const Trivia = () => {
 							  )
 							: []),
 					];
-					setOptions(shuffleArray(allAnswers));
+					setOptions(shuffleAnswers(allAnswers));
 					setQuestion(addQuestionMarkToEnd(decodeHTML(triviaData.question)));
 					setAnswer(decodeHTML(triviaData.answer));
 					setQuestionType(null);
@@ -200,18 +193,16 @@ const Trivia = () => {
 							decodeHTML(answer)
 						),
 					];
-					setOptions(shuffleArray(allAnswers));
+					setOptions(shuffleAnswers(allAnswers));
 					setQuestion(decodeHTML(data.results[0].question));
 					setAnswer(decodeHTML(data.results[0].correct_answer));
 					setQuestionType(data.results[0].type);
-				} else if (selectedSource === "TriviaDart") {
-					// TriviaDart code was already handled above, so no need to repeat here
 				} else {
 					const allAnswers = [
 						decodeHTML(data[0].correctAnswer),
 						...data[0].incorrectAnswers.map((answer: string) => decodeHTML(answer)),
 					];
-					setOptions(shuffleArray(allAnswers));
+					setOptions(shuffleAnswers(allAnswers));
 					setQuestion(decodeHTML(data[0].question));
 					setAnswer(decodeHTML(data[0].correctAnswer));
 					setQuestionType(null);
