@@ -4,11 +4,7 @@ import { writeFileSync } from "fs";
 const gitCommitHash = execSync("git rev-parse --short HEAD").toString().trim();
 
 const currentDate = new Date();
-const year = currentDate.getFullYear();
-const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-const date = String(currentDate.getDate()).padStart(2, "0");
-
-const formattedDate = `${year}-${month}-${date}`;
+const formattedDate = currentDate.toISOString().split("T")[0];
 
 writeFileSync(
 	".env.local",
