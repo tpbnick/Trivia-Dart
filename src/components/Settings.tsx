@@ -60,8 +60,11 @@ const Settings = () => {
 			newFontSize -= 2;
 		}
 
-		setCurrentFontSize(newFontSize);
-		localStorage.setItem("selectedFontSize", `${newFontSize}`);
+		// only allow sizes between 12 and 30
+		if (newFontSize >= 12 && newFontSize <= 30) {
+			setCurrentFontSize(newFontSize);
+			localStorage.setItem("selectedFontSize", `${newFontSize}`);
+		}
 	};
 
 	useEffect(() => {
@@ -127,7 +130,10 @@ const Settings = () => {
 							<button
 								type="button"
 								onClick={() => handleFontSizeChange("decrement")}
-								className="btn btn-sm btn-secondary text-xl flex items-center justify-center w-8 h-8"
+								className={`btn btn-sm btn-secondary text-xl flex items-center justify-center w-8 h-8 ${
+									currentFontSize <= 12 ? "btn-disabled" : ""
+								}`}
+								disabled={currentFontSize <= 12}
 							>
 								-
 							</button>
@@ -135,7 +141,10 @@ const Settings = () => {
 							<button
 								type="button"
 								onClick={() => handleFontSizeChange("increment")}
-								className="btn btn-sm btn-secondary text-xl flex items-center justify-center w-8 h-8"
+								className={`btn btn-sm btn-secondary text-xl flex items-center justify-center w-8 h-8 ${
+									currentFontSize >= 30 ? "btn-disabled" : ""
+								}`}
+								disabled={currentFontSize >= 30}
 							>
 								+
 							</button>
