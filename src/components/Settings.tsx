@@ -52,7 +52,7 @@ const Settings = () => {
 	};
 
 	const handleFontSizeChange = (action: "increment" | "decrement") => {
-		let newFontSize = currentFontSize || 12;
+		let newFontSize = currentFontSize || 16;
 
 		if (action === "increment") {
 			newFontSize += 2;
@@ -60,8 +60,8 @@ const Settings = () => {
 			newFontSize -= 2;
 		}
 
-		// only allow sizes between 12 and 30
-		if (newFontSize >= 12 && newFontSize <= 30) {
+		// only allow sizes between 12 and 24
+		if (newFontSize >= 12 && newFontSize <= 24) {
 			setCurrentFontSize(newFontSize);
 			localStorage.setItem("selectedFontSize", `${newFontSize}`);
 		}
@@ -142,9 +142,9 @@ const Settings = () => {
 								type="button"
 								onClick={() => handleFontSizeChange("increment")}
 								className={`btn btn-sm btn-secondary text-xl flex items-center justify-center w-8 h-8 ${
-									currentFontSize >= 30 ? "btn-disabled" : ""
+									currentFontSize >= 24 ? "btn-disabled" : ""
 								}`}
-								disabled={currentFontSize >= 30}
+								disabled={currentFontSize >= 24}
 							>
 								+
 							</button>
