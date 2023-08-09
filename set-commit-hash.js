@@ -10,3 +10,7 @@ writeFileSync(
 	".env.local",
 	`VITE_GIT_SHA=${gitCommitHash}\nVITE_BUILD_DATE=${formattedDate}`
 );
+
+console.log(
+	`Setting Commit Hash!\nUsing commit: ${gitCommitHash} and date: ${formattedDate}`
+);
