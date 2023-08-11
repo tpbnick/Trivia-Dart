@@ -18,5 +18,5 @@ const blue = "\x1b[34m";
 const reset = "\x1b[0m";
 
 console.log(
-	`${green}Setting Commit Hash!\n${reset}Using commit: ${blue}${gitCommitHash}${reset} and date: ${blue}${formattedDate}${reset}`
+	`${green}Setting Commit Hash!${reset}\nUsing commit: ${blue}${gitCommitHash}${reset} and date: ${blue}${formattedDate}${reset}`
 );
