@@ -15,7 +15,7 @@ export default defineConfig({
         short_name: 'Trivia🎯',
         description: 'Simple Trivia Application',
         display: 'standalone',
-        background_color: '#000000',
+        background_color: 'black',
         icons: [
           {
             src: 'pwa-64x64.png',
