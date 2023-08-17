@@ -74,7 +74,7 @@ TriviaDart is also deployable using Docker. Simply run `docker-compose up` insid
 
 ## How to Remove TriviaDart Source
 
-If you don't want to see the TriviaDart source in the sources dropdown, comment out the TriviaDart source in the `TriviaSource` `const` inside the Trivia.tsx file (src/components/Trivia.tsx).
+If you don't want to see the TriviaDart source in the sources dropdown, comment out the TriviaDart source in the `TriviaSource` `const` inside the Trivia.tsx file (src/components/Trivia.tsx) and redeploy.
 
 ```ts
 const TriviaSource: Record<string, string> = {

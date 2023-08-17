@@ -13,7 +13,7 @@ RUN npm install
 # Copy the application code to the container
 COPY . .
 
-# Expose the port that your application will run on (if needed)
+# Expose the port that your application will run on
 EXPOSE 3000
 
 # Command to start your application
