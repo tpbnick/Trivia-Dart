@@ -16,7 +16,7 @@ TriviaDart is a simple Trivia web application that utilizes both the [Open Trivi
 
 TriviaDart allows you to select one of the above mentioned APIs, a category (`Any` by default), and the ability to show multiple choice options if you are stuck!
 
-Themes! There are many themes and fonts available for you to customize TriviaDart to your preference. Simply click/press on the settings icon in the bottom right of the screen.
+Themes! There are many themes and fonts available for you to customize TriviaDart to your preference. Simply click/press on the settings icon in the bottom right of the screen to select your theme, font, and font size.
 
 ## Install
 
