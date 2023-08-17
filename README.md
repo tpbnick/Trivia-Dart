@@ -62,6 +62,8 @@ The data inside the `incorrect_answers` is formatted as follows (Note: there mus
 ["wrong answer 1", "wrong answer 2", "wrong answer 3"]
 ```
 
+You are free to use the `trivia.csv` file found in this repository to populate your own database. The questions inside this csv were sourced from [this Reddit post](https://www.reddit.com/r/trivia/comments/3wzpvt/free_database_of_50000_trivia_questions/). No `incorrect_answers` are provided in this csv because of the amount of time it would require to add.
+
 If you do NOT want to host your own TriviaDart source, see [How to Remove TriviaDart Source](#how-to-remove-triviadart-source).
 
 ### Free Hosting
