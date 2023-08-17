@@ -62,6 +62,10 @@ The data inside the `incorrect_answers` is formatted as follows (Note: there mus
 
 I personally host this web application on [Netlify](https://netlify.com), which will automatically build any time I make a push/merge to the `master` branch. Make sure to add the environment variables to your deployments on your preferred hosting provider.
 
+## Docker Deployment
+
+TriviaDart is also deployable using Docker. Simply run `docker-compose up` inside the root folder of this application, with the Docker service running on your machine, and it should stand up a TriviaDart container running on port 3000. If you want to change this port, you can edit the docker-compose.yml file to use whichever port you want.
+
 ## Technology Used
 
 - [React](https://react.dev/) + [Vite](https://vitejs.dev/)
