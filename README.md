@@ -44,6 +44,8 @@ Note: Chromium-based browsers work best for installation of PWAs.
 2. Run `npm install` to install dependencies.
 3. Run `npm run dev` to start up the application.
 
+### Hosting Your Own TriviaDart Source
+
 If you want to use Supabase to run your own trivia database, you can create a database and a `.env` file in the root of this project. Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_APIKEY` to the `.env` for the SupaBase.ts file to load correctly. The TriviaDart database is setup with the table name `questions`, and the following columns:
 
 | Column Name         | Data Type |
@@ -60,11 +62,29 @@ The data inside the `incorrect_answers` is formatted as follows (Note: there mus
 ["wrong answer 1", "wrong answer 2", "wrong answer 3"]
 ```
 
+If you do NOT want to host your own TriviaDart source, see [How to Remove TriviaDart Source](#how-to-remove-triviadart-source).
+
+### Free Hosting
+
 I personally host this web application on [Netlify](https://netlify.com), which will automatically build any time I make a push/merge to the `master` branch. Make sure to add the environment variables to your deployments on your preferred hosting provider.
 
 ## Docker Deployment
 
 TriviaDart is also deployable using Docker. Simply run `docker-compose up` inside the root folder of this application, with the Docker service running on your machine, and it should stand up a TriviaDart container running on port 3000. If you want to change this port, you can edit the docker-compose.yml file to use whichever port you want.
+
+## How to Remove TriviaDart Source
+
+If you don't want to see the TriviaDart source in the sources dropdown, comment out the TriviaDart source in the `TriviaSource` `const` inside the Trivia.tsx file (src/components/Trivia.tsx).
+
+```ts
+const TriviaSource: Record<string, string> = {
+	"Open Trivia DB": "https://opentdb.com/api.php?amount=1",
+	"The Trivia API": "https://the-trivia-api.com/api/questions?limit=1",
+	// TriviaDart: "", <- comment out this line
+};
+```
+
+You should now only see the OpenTriviaDB and The-Trivia-API sources in the source dropdown.
 
 ## Technology Used
 
