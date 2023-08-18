@@ -2,6 +2,7 @@
 import { useState, ChangeEvent } from "react";
 import About from "./About";
 import Settings from "./Settings";
+import toast, { Toaster } from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion, faGears } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "./SupaBase";
@@ -151,6 +152,7 @@ const Trivia = () => {
 
 				if (error) {
 					throw new Error("Error fetching data from SupaBase");
+					toast.error("This didn't work.");
 				}
 
 				const filteredData = data.filter(
@@ -211,8 +213,12 @@ const Trivia = () => {
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				setError(error.toString());
+				toast.error("Error loading question, try again.");
+				console.log(`ERROR LOADING QUESTION\n${error}`);
 			} else {
 				setError("An unknown error occurred.");
+				toast.error("An unknown error occurred, try again.");
+				console.log(`UNKNOWN ERROR\n${error}`);
 			}
 		} finally {
 			setLoading(false);
@@ -276,7 +282,11 @@ const Trivia = () => {
 					<div className="w-12 h-12 border-t-2 border-b-2 border-primary rounded-full animate-spin"></div>
 				</div>
 			)}
-			{error && <p className="text-center">Error: {error}</p>}
+			{error && (
+				<p className="text-center pt-10">
+					Error loading question, try again or check console for more details.
+				</p>
+			)}
 			{question && (
 				<div className="mt-4 text-center">
 					{questionType === "boolean" && <p>True or False:</p>}
@@ -330,6 +340,9 @@ const Trivia = () => {
 						className="text-4xl hover:text-primary transition-all duration-200 transform hover:scale-110"
 					/>
 				</label>
+			</div>
+			<div>
+				<Toaster />
 			</div>
 		</div>
 	);

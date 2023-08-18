@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const Settings = () => {
 	const availableThemes = [
@@ -42,6 +43,7 @@ const Settings = () => {
 		setCurrentTheme(selectedTheme);
 		document.documentElement.setAttribute("data-theme", selectedTheme);
 		localStorage.setItem("selectedTheme", selectedTheme);
+		toast.success(`Theme changed to ${selectedTheme}`);
 	};
 
 	const handleFontChange = (event: ChangeEvent<HTMLSelectElement>) => {
