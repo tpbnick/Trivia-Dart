@@ -6,8 +6,9 @@ const About = () => {
 	return (
 		<div>
 			<input type="checkbox" id="about-modal" className="modal-toggle" />
+			{/* Use only one label */}
 			<label htmlFor="about-modal" className="modal cursor-pointer">
-				<label className="modal-box relative" htmlFor="">
+				<div className="modal-box relative">
 					<label
 						htmlFor="about-modal"
 						className="btn btn-sm btn-circle absolute right-3 top-3"
@@ -15,6 +16,7 @@ const About = () => {
 						✕
 					</label>
 					<h3 className="text-2xl font-bold">About</h3>
+					{/* Use paragraphs directly, not nested */}
 					<p className="pb-5 pt-5">
 						All trivia questions provided by{" "}
 						<a
@@ -62,7 +64,7 @@ const About = () => {
 							className="hover:text-secondary transition-all duration-200 transform hover:scale-110"
 						/>
 					</a>
-					<p className="pb-5 text-center">
+					<p className="text-center">
 						Latest Commit:{" "}
 						<a
 							href={`https://github.com/tpbnick/trivia-app/commit/${
@@ -74,9 +76,11 @@ const About = () => {
 						>
 							{import.meta.env.VITE_GIT_SHA} <FontAwesomeIcon icon={faCodeMerge} />
 						</a>
-						<p>Built: {import.meta.env.VITE_BUILD_DATE}</p>
 					</p>
-				</label>
+					<p className="pb-2 text-center">
+						Built: {import.meta.env.VITE_BUILD_DATE}
+					</p>
+				</div>
 			</label>
 		</div>
 	);

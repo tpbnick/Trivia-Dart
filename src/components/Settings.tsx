@@ -79,7 +79,7 @@ const Settings = () => {
 		<div>
 			<input type="checkbox" id="settings-modal" className="modal-toggle" />
 			<label htmlFor="settings-modal" className="modal cursor-pointer">
-				<label className="modal-box relative" htmlFor="">
+				<div className="modal-box relative">
 					<label
 						htmlFor="settings-modal"
 						className="btn btn-sm btn-circle absolute right-3 top-3"
@@ -152,7 +152,7 @@ const Settings = () => {
 							</button>
 						</div>
 					</div>
-				</label>
+				</div>
 			</label>
 		</div>
 	);
