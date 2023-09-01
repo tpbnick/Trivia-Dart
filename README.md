@@ -72,11 +72,11 @@ I personally host this web application on [Netlify](https://netlify.com), which 
 
 ## Docker Deployment
 
-TriviaDart is also deployable using Docker. Simply run `docker-compose up` inside the root folder of this application, with the Docker service running on your machine, and it should stand up a TriviaDart container running on port 3000. If you want to change this port, you can edit the docker-compose.yml file to use whichever port you want.
+TriviaDart is also deployable using Docker. Simply run `docker-compose up` inside the root folder of this application, with the Docker service running on your machine, and it should stand up a TriviaDart container running on port 3000. If you want to change this port, you can edit the docker-compose.yml file to use whichever port you want. **Important**: If you do not want to self host your own Supabase source, please review the next section. If you don't, the application will fail to build/deploy.
 
 ## How to Remove TriviaDart Source
 
-If you don't want to see the TriviaDart source in the sources dropdown, comment out the TriviaDart source in the `TriviaSource` `const` inside the Trivia.tsx file (src/components/Trivia.tsx) and redeploy.
+If you don't want to see the TriviaDart source in the sources dropdown, comment out the TriviaDart source in the `TriviaSource` `const`, remove the Supabase import statment (`import { supabase } from "./SupaBase";`), and remove lines 148-182 inside the Trivia.tsx file (src/components/Trivia.tsx). You will also need to delete the SupaBase.ts file in the components folder. After making these changes, redeploy the application. If you don't make these changes, it will error on build because the Supabase.ts file will not have a Supabase database to connect to.
 
 ```ts
 const TriviaSource: Record<string, string> = {
