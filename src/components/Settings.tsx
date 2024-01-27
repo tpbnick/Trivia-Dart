@@ -43,7 +43,7 @@ const Settings = () => {
 		setCurrentTheme(selectedTheme);
 		document.documentElement.setAttribute("data-theme", selectedTheme);
 		localStorage.setItem("selectedTheme", selectedTheme);
-		toast.success(`Theme changed to ${selectedTheme}`);
+		toast.success(`Theme changed to ${capitalizeFirstLetter(selectedTheme)}`);
 	};
 
 	const handleFontChange = (event: ChangeEvent<HTMLSelectElement>) => {
