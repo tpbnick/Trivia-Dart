@@ -9,8 +9,8 @@ import { supabase } from "./SupaBase";
 
 const Trivia = () => {
 	const TriviaSource: Record<string, string> = {
-		"Open Trivia DB": "https://opentdb.com/api.php?amount=1",
 		"The Trivia API": "https://the-trivia-api.com/api/questions?limit=1",
+		"Open Trivia DB": "https://opentdb.com/api.php?amount=1",
 		TriviaDart: "",
 	};
 
