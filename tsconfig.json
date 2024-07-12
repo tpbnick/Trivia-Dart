@@ -20,5 +20,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
+  "exclude": ["src/components/NoTriviaDartSource/Trivia.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
