@@ -8,18 +8,15 @@ import {
 	faGears,
 	faTimes,
 } from "@fortawesome/free-solid-svg-icons";
-import { supabase } from "./SupaBase";
 
 const Trivia = () => {
 	const TriviaSource: Record<string, string> = {
 		"The Trivia API": "https://the-trivia-api.com/api/questions?limit=1",
 		"Open Trivia DB": "https://opentdb.com/api.php?amount=1",
-		TriviaDart: "",
 	};
 
 	const openTriviaURL = "&category=";
 	const triviaAPIURL = "&categories=";
-	const triviaDartURL = "&category=";
 
 	const triviaDBCategories: Record<string, string> = {
 		Any: "",
@@ -49,23 +46,6 @@ const Trivia = () => {
 		Technology: 18,
 		Television: 14,
 		"Video Games": 15,
-	};
-
-	const triviaDartCategories: Record<string, string> = {
-		Any: "",
-		"Art & Literature": "art_and_literature",
-		Entertainment: "entertainment",
-		"Food & Drink": "food_and_drink",
-		General: "general",
-		Geography: "geography",
-		Language: "language",
-		Music: "music",
-		"People & Places": "people_and_places",
-		"Religion & Mythology": "religion_and_mythology",
-		"Science & Nature": "science_and_nature",
-		"Sports & Leisure": "sports_and_leisure",
-		"Tech & Video Games": "tech_and_video_games",
-		"Toys & Games": "toys_and_games",
 	};
 
 	const [selectedSource, setSelectedSource] = useState<string>(
@@ -135,8 +115,6 @@ const Trivia = () => {
 		if (selectedCategory !== "Any") {
 			if (selectedSource === "Open Trivia DB") {
 				triviaURL += openTriviaURL + openTriviaCategories[selectedCategory];
-			} else if (selectedSource === "TriviaDart") {
-				triviaURL += triviaDartURL + triviaDartCategories[selectedCategory];
 			} else {
 				triviaURL += triviaAPIURL + triviaDBCategories[selectedCategory];
 			}
@@ -149,76 +127,33 @@ const Trivia = () => {
 			setError(null);
 			setQuestion(null);
 
-			if (selectedSource === "TriviaDart") {
-				const { data, error } = await supabase
-					.from("questions")
-					.select("question, answer, incorrect_answers, category");
-
-				if (error) {
-					throw new Error("Error fetching data from SupaBase");
+			const response = await fetch(triviaURL);
+			const data = await response.json();
+			if (selectedSource === "Open Trivia DB") {
+				if (data.response_code === 5) {
+					toast.error("Rate limited from Open Trivia DB");
+					setLoading(false);
+					return;
 				}
-
-				const filteredData = data.filter(
-					(item) =>
-						selectedCategory === "Any" ||
-						item.category === triviaDartCategories[selectedCategory]
-				);
-
-				if (filteredData.length > 0) {
-					const randomIndex = Math.floor(Math.random() * filteredData.length);
-					const triviaData = filteredData[randomIndex];
-
-					const allAnswers = [
-						decodeHTML(triviaData.answer),
-						...(triviaData.incorrect_answers
-							? triviaData.incorrect_answers.map(
-									(answer: string) => decodeHTML(answer)
-									// not sure why eslint is complaining here lol
-									// eslint-disable-next-line no-mixed-spaces-and-tabs
-							  )
-							: []),
-					];
-					setOptions(shuffleAnswers(allAnswers));
-					setQuestion(addQuestionMarkToEnd(decodeHTML(triviaData.question)));
-					setAnswer(decodeHTML(triviaData.answer));
-					setQuestionType(null);
-				} else {
-					setQuestion("No questions found for this category.");
-				}
+				const allAnswers = [
+					decodeHTML(data.results[0].correct_answer),
+					...data.results[0].incorrect_answers.map((answer: string) =>
+						decodeHTML(answer)
+					),
+				];
+				setOptions(shuffleAnswers(allAnswers));
+				setQuestion(addQuestionMarkToEnd(decodeHTML(data.results[0].question)));
+				setAnswer(decodeHTML(data.results[0].correct_answer));
+				setQuestionType(data.results[0].type);
 			} else {
-				const headers: Record<string, string> = {};
-				if (selectedSource === "TriviaDart") {
-					headers["x-api-key"] = import.meta.env.VITE_TRIVIA_DART_APIKEY;
-				}
-
-				const response = await fetch(triviaURL, { headers });
-				const data = await response.json();
-				if (selectedSource === "Open Trivia DB") {
-					if (data.response_code === 5) {
-						toast.error("Rate limited from Open Trivia DB");
-						setLoading(false);
-						return;
-					}
-					const allAnswers = [
-						decodeHTML(data.results[0].correct_answer),
-						...data.results[0].incorrect_answers.map((answer: string) =>
-							decodeHTML(answer)
-						),
-					];
-					setOptions(shuffleAnswers(allAnswers));
-					setQuestion(decodeHTML(data.results[0].question));
-					setAnswer(decodeHTML(data.results[0].correct_answer));
-					setQuestionType(data.results[0].type);
-				} else {
-					const allAnswers = [
-						decodeHTML(data[0].correctAnswer),
-						...data[0].incorrectAnswers.map((answer: string) => decodeHTML(answer)),
-					];
-					setOptions(shuffleAnswers(allAnswers));
-					setQuestion(decodeHTML(data[0].question));
-					setAnswer(decodeHTML(data[0].correctAnswer));
-					setQuestionType(null);
-				}
+				const allAnswers = [
+					decodeHTML(data[0].correctAnswer),
+					...data[0].incorrectAnswers.map((answer: string) => decodeHTML(answer)),
+				];
+				setOptions(shuffleAnswers(allAnswers));
+				setQuestion(addQuestionMarkToEnd(decodeHTML(data[0].question)));
+				setAnswer(decodeHTML(data[0].correctAnswer));
+				setQuestionType(null);
 			}
 		} catch (error: unknown) {
 			if (error instanceof Error) {
@@ -268,8 +203,6 @@ const Trivia = () => {
 						{Object.keys(
 							selectedSource === "Open Trivia DB"
 								? openTriviaCategories
-								: selectedSource === "TriviaDart"
-								? triviaDartCategories
 								: triviaDBCategories
 						).map((category, i) => (
 							<option key={i} value={category}>

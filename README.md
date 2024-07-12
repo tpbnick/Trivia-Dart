@@ -12,7 +12,7 @@
 
 ## Overview
 
-TriviaDart is a simple Trivia web application that utilizes both the [Open Trivia DB ](https://opentdb.com/) and [The Trivia API](https://the-trivia-api.com/), which both offer generous free API usage. TriviaDart also has an in-house API that has over 45,000 trivia questions. Currently, there are no options available for these questions, but this will be added in the future. The in-house API utilizes Supabase.
+TriviaDart is a simple Trivia web application that utilizes both the [Open Trivia DB ](https://opentdb.com/) and [The Trivia API](https://the-trivia-api.com/), which both offer generous free API usage. The Open Trivia DB Source is rate limited to one question every 5 seconds (an alert is shown when that source is selected to inform users). TriviaDart also has an in-house API that has over 45,000 trivia questions. Currently, there are no options available for these questions, but this will be added in the future. The in-house API utilizes Supabase.
 
 TriviaDart allows you to select one of the above mentioned APIs, a category (`Any` by default), and the ability to show multiple choice options if you are stuck!
 
@@ -76,15 +76,7 @@ TriviaDart is also deployable using Docker. Simply run `docker-compose up` insid
 
 ## How to Remove TriviaDart Source
 
-If you don't want to see the TriviaDart source in the sources dropdown, comment out the TriviaDart source in the `TriviaSource` `const`, remove the Supabase import statment (`import { supabase } from "./SupaBase";`), and remove lines 148-182 inside the Trivia.tsx file (src/components/Trivia.tsx). You will also need to delete the SupaBase.ts file in the components folder. After making these changes, redeploy the application. If you don't make these changes, it will error on build because the Supabase.ts file will not have a Supabase database to connect to.
-
-```ts
-const TriviaSource: Record<string, string> = {
-	"Open Trivia DB": "https://opentdb.com/api.php?amount=1",
-	"The Trivia API": "https://the-trivia-api.com/api/questions?limit=1",
-	// TriviaDart: "", <- comment out this line
-};
-```
+If you don't want to see the TriviaDart source in the sources dropdown, comment out the TriviaDart source in the `TriviaSource`s dropdown, copy/paste the `Trivia.tsx` file from the `NoTriviaDartSource` folder into the `Trivia.tsx` file in the main src/components folder. You will also need to delete the SupaBase.ts file in the components folder. After making these changes, redeploy the application.
 
 You should now only see the OpenTriviaDB and The-Trivia-API sources in the source dropdown.
 
