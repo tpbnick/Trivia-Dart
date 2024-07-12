@@ -3,7 +3,11 @@ import About from "./About";
 import Settings from "./Settings";
 import toast, { Toaster } from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleQuestion, faGears } from "@fortawesome/free-solid-svg-icons";
+import {
+	faCircleQuestion,
+	faGears,
+	faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "./SupaBase";
 
 const Trivia = () => {
@@ -76,6 +80,7 @@ const Trivia = () => {
 	const [showOptions, setShowOptions] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
+	const [showAlert, setShowAlert] = useState(true);
 
 	const handleSourceChange = ({
 		target: { value },
@@ -167,8 +172,10 @@ const Trivia = () => {
 					const allAnswers = [
 						decodeHTML(triviaData.answer),
 						...(triviaData.incorrect_answers
-							? triviaData.incorrect_answers.map((answer: string) =>
-									decodeHTML(answer)
+							? triviaData.incorrect_answers.map(
+									(answer: string) => decodeHTML(answer)
+									// not sure why eslint is complaining here lol
+									// eslint-disable-next-line no-mixed-spaces-and-tabs
 							  )
 							: []),
 					];
@@ -188,6 +195,11 @@ const Trivia = () => {
 				const response = await fetch(triviaURL, { headers });
 				const data = await response.json();
 				if (selectedSource === "Open Trivia DB") {
+					if (data.response_code === 5) {
+						toast.error("Rate limited from Open Trivia DB");
+						setLoading(false);
+						return;
+					}
 					const allAnswers = [
 						decodeHTML(data.results[0].correct_answer),
 						...data.results[0].incorrect_answers.map((answer: string) =>
@@ -269,22 +281,32 @@ const Trivia = () => {
 				</div>
 			</div>
 
-			{selectedSource === "Open Trivia DB" && (
-				<div role="alert" className="alert max-w-lg">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						className="h-6 w-6 shrink-0 stroke-current"
-						fill="none"
-						viewBox="0 0 24 24"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth="2"
-							d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-						/>
-					</svg>
-					<span>Open TriviaDB is limited to 1 question every 5 seconds.</span>
+			{selectedSource === "Open Trivia DB" && showAlert && (
+				<div
+					role="alert"
+					className="alert max-w-lg flex justify-between items-center"
+				>
+					<div className="flex items-center">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-6 w-6 shrink-0 stroke-current"
+							fill="none"
+							viewBox="0 0 24 24"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth="2"
+								d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+							/>
+						</svg>
+						<span className="ml-2">
+							Open TriviaDB is limited to 1 question every 5 seconds.
+						</span>
+					</div>
+					<button onClick={() => setShowAlert(false)} className="ml-2">
+						<FontAwesomeIcon icon={faTimes} className="text-xl" />
+					</button>
 				</div>
 			)}
 
@@ -309,17 +331,33 @@ const Trivia = () => {
 				<div className="mt-4 text-center">
 					{questionType === "boolean" && <p>True or False:</p>}
 					<p className="text w-80 mx-auto text-xl">{question}</p>
-					<button
-						onClick={() => setShowOptions((prevShowOptions) => !prevShowOptions)}
-						className={`btn btn-secondary mt-4 text-white font-bold py-2 px-4 rounded mx-auto ${
-							questionType === "boolean" || options.length < 4
-								? "cursor-not-allowed opacity-90 hover:"
-								: "btn"
-						}`}
-						disabled={questionType === "boolean" || options.length < 4}
-					>
-						{showOptions ? "Hide Options" : "Show Options"}
-					</button>
+					{questionType === "boolean" ? (
+						<div className="tooltip" data-tip="Options are True/False">
+							<button
+								onClick={() => setShowOptions((prevShowOptions) => !prevShowOptions)}
+								className={`btn btn-secondary mt-4 text-white font-bold py-2 px-4 rounded mx-auto ${
+									questionType === "boolean" || options.length < 4
+										? "cursor-not-allowed opacity-90 hover:"
+										: "btn"
+								}`}
+								disabled={questionType === "boolean" || options.length < 4}
+							>
+								{showOptions ? "Hide Options" : "Show Options"}
+							</button>
+						</div>
+					) : (
+						<button
+							onClick={() => setShowOptions((prevShowOptions) => !prevShowOptions)}
+							className={`btn btn-secondary mt-4 text-white font-bold py-2 px-4 rounded mx-auto ${
+								questionType === "boolean" || options.length < 4
+									? "cursor-not-allowed opacity-90 hover:"
+									: "btn"
+							}`}
+							disabled={questionType === "boolean" || options.length < 4}
+						>
+							{showOptions ? "Hide Options" : "Show Options"}
+						</button>
+					)}
 
 					{showOptions && (
 						<div className="py-5">
