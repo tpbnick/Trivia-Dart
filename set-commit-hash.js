@@ -4,7 +4,7 @@ import { writeFileSync } from "fs";
 const gitCommitHash = execSync("git rev-parse --short HEAD").toString().trim();
 
 const currentDate = new Date();
-currentDate.setHours(currentDate.getHours() - 5); // EST
+currentDate.setHours(currentDate.getHours() - 8); // PST
 const formattedDate = currentDate.toISOString().split("T")[0];
 
 writeFileSync(
