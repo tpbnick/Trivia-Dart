@@ -151,7 +151,7 @@ const Trivia = () => {
 
 			if (selectedSource === "TriviaDart") {
 				const { data, error } = await supabase
-					.from("questions")
+					.from("questionsv2")
 					.select("question, answer, incorrect_answers, category");
 
 				if (error) {
