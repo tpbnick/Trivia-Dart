@@ -152,7 +152,8 @@ const Trivia = () => {
 			if (selectedSource === "TriviaDart") {
 				const { data, error } = await supabase
 					.from("questionsv2")
-					.select("question, answer, incorrect_answers, category");
+					.select("question, answer, incorrect_answers, category")
+					.limit(1);
 
 				if (error) {
 					throw new Error("Error fetching data from SupaBase");
@@ -168,15 +169,16 @@ const Trivia = () => {
 					const randomIndex = Math.floor(Math.random() * filteredData.length);
 					const triviaData = filteredData[randomIndex];
 
+					// Ensure incorrect_answers is an array
+					const incorrectAnswers = Array.isArray(triviaData.incorrect_answers)
+						? triviaData.incorrect_answers
+						: typeof triviaData.incorrect_answers === "string"
+						? JSON.parse(triviaData.incorrect_answers)
+						: [];
+
 					const allAnswers = [
 						decodeHTML(triviaData.answer),
-						...(triviaData.incorrect_answers
-							? triviaData.incorrect_answers.map(
-									(answer: string) => decodeHTML(answer)
-									// not sure why eslint is complaining here lol
-									// eslint-disable-next-line no-mixed-spaces-and-tabs
-							  )
-							: []),
+						...incorrectAnswers.map((answer: string) => decodeHTML(answer)),
 					];
 					setOptions(shuffleAnswers(allAnswers));
 					setQuestion(addQuestionMarkToEnd(decodeHTML(triviaData.question)));
