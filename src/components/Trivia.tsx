@@ -169,12 +169,19 @@ const Trivia = () => {
 					const randomIndex = Math.floor(Math.random() * filteredData.length);
 					const triviaData = filteredData[randomIndex];
 
-					// Ensure incorrect_answers is an array
-					const incorrectAnswers = Array.isArray(triviaData.incorrect_answers)
-						? triviaData.incorrect_answers
-						: typeof triviaData.incorrect_answers === "string"
-						? JSON.parse(triviaData.incorrect_answers)
-						: [];
+					// Ensure incorrect_answers is correctly formatted and parsed as an array
+					let incorrectAnswers = [];
+					if (Array.isArray(triviaData.incorrect_answers)) {
+						incorrectAnswers = triviaData.incorrect_answers;
+					} else if (typeof triviaData.incorrect_answers === "string") {
+						const formattedAnswers = triviaData.incorrect_answers.replace(/'/g, '"');
+						try {
+							incorrectAnswers = JSON.parse(formattedAnswers);
+						} catch (parseError) {
+							console.error("Failed to parse incorrect_answers", parseError);
+							incorrectAnswers = [];
+						}
+					}
 
 					const allAnswers = [
 						decodeHTML(triviaData.answer),
