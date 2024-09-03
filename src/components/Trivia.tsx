@@ -204,7 +204,7 @@ const Trivia = () => {
 
 	return (
 		<div className="my-1 flex flex-col items-center pt-10">
-			<div className="pt-3 pb-5 text-5xl font-mono">Trivia🎯</div>
+			<div className="pt-3 pb-5 text-5xl font-mono select-none">Trivia🎯</div>
 			<div className="flex py-4">
 				<div className="form-control w-full max-w-xs">
 					<label className="label">
@@ -266,7 +266,7 @@ const Trivia = () => {
 								d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
 							/>
 						</svg>
-						<span className="ml-2">
+						<span className="ml-2 select-none">
 							Open TriviaDB is limited to 1 question every 5 seconds.
 						</span>
 					</div>
