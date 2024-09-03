@@ -154,7 +154,7 @@ const Trivia = () => {
 					.from("questionsv2")
 					.select("question, answer, incorrect_answers, category")
 					.eq("category", triviaDartCategories[selectedCategory])
-					.order("RANDOM", { ascending: false })
+					.order(".random()")
 					.limit(1);
 
 				if (error) {
