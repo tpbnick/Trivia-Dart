@@ -109,21 +109,6 @@ const Trivia = () => {
 		return array.sort(() => Math.random() - 0.5);
 	};
 
-	const addQuestionMarkToEnd = (text: string) => {
-		// Check if the text already ends with a question mark
-		text = text.trim();
-		if (text.endsWith("?")) {
-			return text;
-		}
-		// If the text ends with other punctuation, remove it and add a question mark
-		const lastChar = text.charAt(text.length - 1);
-		if (/[.,!]/.test(lastChar)) {
-			return text.slice(0, -1) + "?";
-		}
-		// If no punctuation is found at the end, add a question mark
-		return text.trimEnd() + "?";
-	};
-
 	const handleButtonClick = async () => {
 		setLoading(true);
 		setShowAnswer(false);
