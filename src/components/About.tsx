@@ -48,9 +48,12 @@ const About = () => {
 					</p>
 					<p className="pb-5">
 						Questions provided by TriviaDart directly utilize questions found on the
-						open web and are therefore open source and completely free to use.
-						Currently there are no answer options available for the TriviaDart
-						Database, but this may change in the future.
+						open web and are therefore open source and completely free to use. The
+						trivia.csv file can be downloaded from the{" "}
+						<a href="https://github.com/tpbnick/trivia-app" target="_blank">
+							Github repository
+						</a>
+						.
 					</p>
 					<p className="text-center">Made with 🤍 by Nick Platt</p>
 					<a

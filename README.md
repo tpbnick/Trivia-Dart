@@ -12,7 +12,7 @@
 
 ## Overview
 
-TriviaDart is a simple Trivia web application that utilizes both the [Open Trivia DB ](https://opentdb.com/) and [The Trivia API](https://the-trivia-api.com/), which both offer generous free API usage. The Open Trivia DB Source is rate limited to one question every 5 seconds (an alert is shown when that source is selected to inform users). TriviaDart also has an in-house API that has over 45,000 trivia questions. Currently, there are no options available for these questions, but this will be added in the future. The in-house API utilizes Supabase.
+TriviaDart is a simple Trivia web application that utilizes both the [Open Trivia DB ](https://opentdb.com/) and [The Trivia API](https://the-trivia-api.com/), which both offer generous free API usage. The Open Trivia DB Source is rate limited to one question every 5 seconds (an alert is shown when that source is selected to inform users). TriviaDart also has an in-house API that has over 45,000 trivia questions. The incorrect options for the TriviaDart source were created using OpenAI's GPT-4o model and may be incorrect. The in-house API utilizes Supabase.
 
 TriviaDart allows you to select one of the above mentioned APIs, a category (`Any` by default), and the ability to show multiple choice options if you are stuck!
 
@@ -62,7 +62,7 @@ The data inside the `incorrect_answers` is formatted as follows (Note: there mus
 ["wrong answer 1", "wrong answer 2", "wrong answer 3"]
 ```
 
-You are free to use the `trivia.csv` file found in this repository to populate your own database. The questions inside this csv were sourced from [this Reddit post](https://www.reddit.com/r/trivia/comments/3wzpvt/free_database_of_50000_trivia_questions/). No `incorrect_answers` are provided in this csv because of the amount of time it would require to add.
+You are free to use the `trivia.csv` file found in this repository to populate your own database. The questions inside this csv were sourced from [this Reddit post](https://www.reddit.com/r/trivia/comments/3wzpvt/free_database_of_50000_trivia_questions/). The `incorrect_answers` text[] were created using OpenAI's GPT-4o model and may be incorrect.
 
 If you do NOT want to host your own TriviaDart source, see [How to Remove TriviaDart Source](#how-to-remove-triviadart-source).
 
