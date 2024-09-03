@@ -147,7 +147,10 @@ const Trivia = () => {
 					console.log("No questions found for this category.");
 					toast.error("No questions found for this category.");
 				} else {
-					setQuestion("No questions found for this category.");
+					console.log("Question received:", data);
+					setQuestion(data[0].question);
+					setAnswer(data[0].answer);
+					setOptions(shuffleAnswers([...data[0].incorrect_answers, data[0].answer]));
 				}
 			} else {
 				const headers: Record<string, string> = {};
