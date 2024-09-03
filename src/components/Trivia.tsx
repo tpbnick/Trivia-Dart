@@ -150,38 +150,17 @@ const Trivia = () => {
 			setQuestion(null);
 
 			if (selectedSource === "TriviaDart") {
-				const { data, error } = await supabase
-					.from("questions")
-					.select("question, answer, incorrect_answers, category");
+				const { data, error } = await supabase.rpc("get_random_question", {
+					input_category: triviaDartCategories[selectedCategory],
+				});
 
 				if (error) {
 					throw new Error("Error fetching data from SupaBase");
 				}
 
-				const filteredData = data.filter(
-					(item) =>
-						selectedCategory === "Any" ||
-						item.category === triviaDartCategories[selectedCategory]
-				);
-
-				if (filteredData.length > 0) {
-					const randomIndex = Math.floor(Math.random() * filteredData.length);
-					const triviaData = filteredData[randomIndex];
-
-					const allAnswers = [
-						decodeHTML(triviaData.answer),
-						...(triviaData.incorrect_answers
-							? triviaData.incorrect_answers.map(
-									(answer: string) => decodeHTML(answer)
-									// not sure why eslint is complaining here lol
-									// eslint-disable-next-line no-mixed-spaces-and-tabs
-							  )
-							: []),
-					];
-					setOptions(shuffleAnswers(allAnswers));
-					setQuestion(addQuestionMarkToEnd(decodeHTML(triviaData.question)));
-					setAnswer(decodeHTML(triviaData.answer));
-					setQuestionType(null);
+				if (data.length === 0) {
+					console.log("No questions found for this category.");
+					toast.error("No questions found for this category.");
 				} else {
 					setQuestion("No questions found for this category.");
 				}
