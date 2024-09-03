@@ -153,7 +153,8 @@ const Trivia = () => {
 				const { data, error } = await supabase
 					.from("questionsv2")
 					.select("question, answer, incorrect_answers, category")
-					.order("random()")
+					.eq("category", triviaDartCategories[selectedCategory])
+					.order("RANDOM", { ascending: false })
 					.limit(1);
 
 				if (error) {
