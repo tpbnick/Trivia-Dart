@@ -3,22 +3,47 @@ import toast from "react-hot-toast";
 
 const Settings = () => {
 	const availableThemes = [
-		"dark",
 		"light",
-		"aqua",
-		"black",
-		"business",
-		"cmyk",
-		"cyberpunk",
-		"dracula",
+		"dark",
+		"cupcake",
+		"bumblebee",
 		"emerald",
-		"night",
+		"corporate",
 		"synthwave",
+		"retro",
+		"cyberpunk",
 		"valentine",
+		"halloween",
+		"garden",
+		"forest",
+		"aqua",
+		"lofi",
+		"pastel",
+		"fantasy",
 		"wireframe",
+		"black",
+		"luxury",
+		"dracula",
+		"cmyk",
+		"autumn",
+		"business",
+		"acid",
+		"lemonade",
+		"night",
+		"coffee",
+		"winter",
+		"dim",
+		"nord",
+		"sunset",
 	];
 
-	const availableFonts = ["Cambria", "Monospace", "Roboto", "Times New Roman"];
+	const availableFonts = [
+		"Roboto",
+		"Roboto Mono",
+		"Sono",
+		"Montserrat",
+		"Times New Roman",
+	];
 
 	const storedTheme = localStorage.getItem("selectedTheme") || "dark";
 	const [currentTheme, setCurrentTheme] = useState(storedTheme);
