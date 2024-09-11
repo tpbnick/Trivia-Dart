@@ -32,9 +32,6 @@ const Settings = () => {
 		"night",
 		"coffee",
 		"winter",
-		"dim",
-		"nord",
-		"sunset",
 	];
 
 	const availableFonts = [
