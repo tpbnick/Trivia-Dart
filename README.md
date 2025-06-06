@@ -76,9 +76,28 @@ TriviaDart is also deployable using Docker. Simply run `docker-compose up` insid
 
 ## How to Remove TriviaDart Source
 
-If you don't want to see the TriviaDart source in the sources dropdown, comment out the TriviaDart source in the `TriviaSource`s dropdown, copy/paste the `Trivia.tsx` file from the `NoTriviaDartSource` folder into the `Trivia.tsx` file in the main src/components folder. You will also need to delete the SupaBase.ts file in the components folder. After making these changes, redeploy the application.
+If you do **not** want to see the TriviaDart source in the sources dropdown (for example, if you do not want to host your own Supabase backend), you can easily disable it using an environment variable:
 
-You should now only see the OpenTriviaDB and The-Trivia-API sources in the source dropdown.
+1. In your `.env` or deployment environment, set:
+   ```
+   VITE_ENABLE_TRIVIADART=false
+   ```
+2. Redeploy or restart your application.
+
+When this variable is set to `false`, the TriviaDart source and its categories will be completely removed from the app, and no Supabase or TriviaDart-specific environment variables are required.
+
+### Docker Users
+If you are deploying with Docker, you can set this variable in your `docker-compose.yml` or pass it as a build argument:
+
+```yaml
+environment:
+  - VITE_ENABLE_TRIVIADART=false
+```
+
+Or build with:
+```sh
+docker build --build-arg VITE_ENABLE_TRIVIADART=false .
+```
 
 ## Technology Used
 

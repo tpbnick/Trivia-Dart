@@ -1,101 +1,46 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { SettingsState, Theme, Font } from "../types/settings";
+import { AVAILABLE_THEMES, AVAILABLE_FONTS, FONT_SIZE } from "../constants/settings";
+import { loadSettings, saveSettings, applySettings } from "../utils/settings";
 
 const Settings = () => {
-	const availableThemes = [
-		"light",
-		"dark",
-		"cupcake",
-		"bumblebee",
-		"emerald",
-		"corporate",
-		"synthwave",
-		"retro",
-		"cyberpunk",
-		"valentine",
-		"halloween",
-		"garden",
-		"forest",
-		"aqua",
-		"lofi",
-		"pastel",
-		"fantasy",
-		"wireframe",
-		"black",
-		"luxury",
-		"dracula",
-		"cmyk",
-		"autumn",
-		"business",
-		"acid",
-		"lemonade",
-		"night",
-		"coffee",
-		"winter",
-	];
+	const [settings, setSettings] = useState<SettingsState>(loadSettings());
 
-	const availableFonts = [
-		"Roboto",
-		"Roboto Mono",
-		"Sono",
-		"Montserrat",
-		"Times New Roman",
-	];
-
-	const storedTheme = localStorage.getItem("selectedTheme") || "dark";
-	const [currentTheme, setCurrentTheme] = useState(storedTheme);
-
-	const storedFont = localStorage.getItem("selectedFont") || "Roboto";
-	const [currentFont, setCurrentFont] = useState(storedFont);
-
-	const storedFontSize = parseInt(
-		localStorage.getItem("selectedFontSize") || "16",
-		10
-	);
-	const [currentFontSize, setCurrentFontSize] = useState<number>(
-		storedFontSize || 16
-	);
-
-	const capitalizeFirstLetter = (str: string) => {
+	const capitalizeFirstLetter = (str: string): string => {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	};
 
 	const handleThemeChange = (event: ChangeEvent<HTMLSelectElement>) => {
-		const selectedTheme = event.target.value;
-		setCurrentTheme(selectedTheme);
-		document.documentElement.setAttribute("data-theme", selectedTheme);
-		localStorage.setItem("selectedTheme", selectedTheme);
+		const selectedTheme = event.target.value as Theme;
+		const newSettings = { ...settings, theme: selectedTheme };
+		setSettings(newSettings);
+		saveSettings(newSettings);
 		toast.success(`Theme changed to ${capitalizeFirstLetter(selectedTheme)}`);
 	};
 
 	const handleFontChange = (event: ChangeEvent<HTMLSelectElement>) => {
-		const selectedFont = event.target.value;
-		setCurrentFont(selectedFont);
-		localStorage.setItem("selectedFont", selectedFont);
-		document.documentElement.style.fontFamily = selectedFont;
+		const selectedFont = event.target.value as Font;
+		const newSettings = { ...settings, font: selectedFont };
+		setSettings(newSettings);
+		saveSettings(newSettings);
 	};
 
 	const handleFontSizeChange = (action: "increment" | "decrement") => {
-		let newFontSize = currentFontSize || 16;
+		const newFontSize = action === "increment"
+			? settings.fontSize + FONT_SIZE.STEP
+			: settings.fontSize - FONT_SIZE.STEP;
 
-		if (action === "increment") {
-			newFontSize += 2;
-		} else if (action === "decrement") {
-			newFontSize -= 2;
-		}
-
-		// only allow sizes between 12 and 24
-		if (newFontSize >= 12 && newFontSize <= 24) {
-			setCurrentFontSize(newFontSize);
-			localStorage.setItem("selectedFontSize", `${newFontSize}`);
+		if (newFontSize >= FONT_SIZE.MIN && newFontSize <= FONT_SIZE.MAX) {
+			const newSettings = { ...settings, fontSize: newFontSize };
+			setSettings(newSettings);
+			saveSettings(newSettings);
 		}
 	};
 
 	useEffect(() => {
-		document.documentElement.style.fontFamily = currentFont;
-		document.documentElement.setAttribute("data-theme", currentTheme);
-		document.documentElement.style.fontSize = `${currentFontSize}px`;
-	}, [currentFont, currentTheme, currentFontSize]);
+		applySettings(settings);
+	}, [settings]);
 
 	return (
 		<div>
@@ -105,6 +50,7 @@ const Settings = () => {
 					<label
 						htmlFor="settings-modal"
 						className="btn btn-sm btn-circle absolute right-3 top-3"
+						aria-label="Close settings modal"
 					>
 						✕
 					</label>
@@ -118,11 +64,11 @@ const Settings = () => {
 						</label>
 						<select
 							id="theme-select"
-							value={currentTheme}
+							value={settings.theme}
 							onChange={handleThemeChange}
 							className="select select-bordered block w-full"
 						>
-							{availableThemes.map((theme) => (
+							{AVAILABLE_THEMES.map((theme) => (
 								<option key={theme} value={theme}>
 									{capitalizeFirstLetter(theme)}
 								</option>
@@ -135,11 +81,11 @@ const Settings = () => {
 						</label>
 						<select
 							id="font-select"
-							value={currentFont}
+							value={settings.font}
 							onChange={handleFontChange}
 							className="select select-bordered block w-full"
 						>
-							{availableFonts.map((font) => (
+							{AVAILABLE_FONTS.map((font) => (
 								<option key={font} value={font}>
 									{font}
 								</option>
@@ -155,20 +101,20 @@ const Settings = () => {
 								type="button"
 								onClick={() => handleFontSizeChange("decrement")}
 								className={`btn btn-sm btn-secondary text-xl flex items-center justify-center w-8 h-8 ${
-									currentFontSize <= 12 ? "btn-disabled" : ""
+									settings.fontSize <= FONT_SIZE.MIN ? "btn-disabled" : ""
 								}`}
-								disabled={currentFontSize <= 12}
+								disabled={settings.fontSize <= FONT_SIZE.MIN}
 							>
 								-
 							</button>
-							<span className="mx-2 text-xl">{currentFontSize}</span>
+							<span className="mx-2 text-xl">{settings.fontSize}</span>
 							<button
 								type="button"
 								onClick={() => handleFontSizeChange("increment")}
 								className={`btn btn-sm btn-secondary text-xl flex items-center justify-center w-8 h-8 ${
-									currentFontSize >= 24 ? "btn-disabled" : ""
+									settings.fontSize >= FONT_SIZE.MAX ? "btn-disabled" : ""
 								}`}
-								disabled={currentFontSize >= 24}
+								disabled={settings.fontSize >= FONT_SIZE.MAX}
 							>
 								+
 							</button>
