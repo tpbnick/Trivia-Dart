@@ -1,4 +1,4 @@
-import { TriviaSource, TriviaCategory } from '../types/trivia';
+import { TriviaCategory } from '../types/trivia';
 
 const ENABLE_TRIVIADART = import.meta.env.VITE_ENABLE_TRIVIADART === "true";
 

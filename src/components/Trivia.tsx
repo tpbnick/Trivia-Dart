@@ -9,10 +9,9 @@ import {
 	faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "./SupaBase";
-import { TriviaState, TriviaQuestion, TriviaResponse } from "../types/trivia";
+import { TriviaState, TriviaResponse } from "../types/trivia";
 import {
 	TRIVIA_SOURCES,
-	TRIVIA_DART_URL,
 	TRIVIA_DB_CATEGORIES,
 	OPEN_TRIVIA_CATEGORIES,
 	TRIVIA_DART_CATEGORIES,
