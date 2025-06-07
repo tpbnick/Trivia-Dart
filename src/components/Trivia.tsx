@@ -71,7 +71,7 @@ const Trivia = () => {
 			...prev,
 			loading: true,
 			showAnswer: false,
-			showOptions: false,
+			showOptions: true,
 			error: null,
 			question: null,
 			answerToastShown: false,
@@ -179,7 +179,7 @@ const Trivia = () => {
 	};
 
 	return (
-		<div className="my-1 flex flex-col items-center pt-10">
+		<div className="my-1 flex flex-col items-center pt-4">
 			<div className="pt-3 pb-5 text-5xl font-mono select-none">Trivia🎯</div>
 			<div className="flex py-4">
 				<div className="form-control w-full max-w-xs">
@@ -242,53 +242,41 @@ const Trivia = () => {
 			)}
 
 			{state.question && (
-				<div className="mt-10 mb-8 p-8 bg-base-200 rounded-2xl max-w-2xl shadow-lg flex flex-col items-center">
-					<p className="text-xl mb-6 text-center w-full flex items-center justify-center min-h-[3.5rem]">
+				<div className="mt-4 mb-6 w-full max-w-2xl flex flex-col items-center">
+					<p className="text-xl mb-6 text-center w-full flex items-center justify-center min-h-[3.5rem] text-base-content">
 						{state.question}
 					</p>
-					{state.showOptions && (
-						<div className="grid grid-cols-1 gap-2 w-full">
-							{state.options.map((option, index) => (
-								<button
-									key={index}
-									className={`btn w-full ${
-										state.showAnswer
-											? option === state.answer
-												? "btn-success"
-												: "btn-error"
-											: "btn-primary"
-									}`}
-									onClick={() => {
-										setState(prev => ({ ...prev, showAnswer: true }));
-										if (!state.answerToastShown) {
-											if (option === state.answer) {
-												toast.success("Correct!");
-											} else {
-												toast.error("Incorrect!");
-											}
-											setState(prev => ({ ...prev, answerToastShown: true }));
-										}
-									}}
-								>
-									{option}
-								</button>
-							))}
-						</div>
-					)}
-					{!state.showOptions && (
-						<div className="flex justify-center w-full">
+					<div className="grid grid-cols-1 gap-2 w-full">
+						{state.options.map((option, index) => (
 							<button
-								className="btn btn-primary mt-6"
-								onClick={() => setState(prev => ({ ...prev, showOptions: true }))}
+								key={index}
+								className={`btn w-full ${
+									state.showAnswer
+										? option === state.answer
+											? "btn-success"
+											: "btn-error"
+										: "btn-primary"
+								}`}
+								onClick={() => {
+									setState(prev => ({ ...prev, showAnswer: true }));
+									if (!state.answerToastShown) {
+										if (option === state.answer) {
+											toast.success("Correct!");
+										} else {
+											toast.error("Incorrect!");
+										}
+										setState(prev => ({ ...prev, answerToastShown: true }));
+									}
+								}}
 							>
-								Show Options
+								{option}
 							</button>
-						</div>
-					)}
+						))}
+					</div>
 				</div>
 			)}
 
-			{state.question && state.showOptions && (
+			{state.question && !state.loading && (
 				<div className="flex justify-center mb-10">
 					<button
 						className="btn btn-primary"
@@ -300,7 +288,7 @@ const Trivia = () => {
 				</div>
 			)}
 
-			{(!state.question || !state.showOptions) && (
+			{!state.question && (
 				<button
 					className="btn btn-primary mt-4"
 					onClick={handleButtonClick}
