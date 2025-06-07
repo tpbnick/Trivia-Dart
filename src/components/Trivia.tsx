@@ -115,7 +115,7 @@ const Trivia = () => {
 
 				const response = await fetch(triviaUrl, { headers });
 				if (state.selectedSource === "Open Trivia DB" && response.status === 429) {
-					toast.error("Rate limited from Open Trivia DB. Please wait a moment.");
+					toast.error("Rate limited from Open Trivia DB. Please wait a moment.", { position: "top-center" });
 					setState(prev => ({ ...prev, loading: false }));
 					return;
 				}
@@ -172,7 +172,7 @@ const Trivia = () => {
 		} catch (error: unknown) {
 			const errorMessage = handleTriviaError(error);
 			setState(prev => ({ ...prev, error: errorMessage }));
-			toast.error(errorMessage);
+			toast.error(errorMessage, { position: "top-center" });
 		} finally {
 			setState(prev => ({ ...prev, loading: false }));
 		}
@@ -261,9 +261,9 @@ const Trivia = () => {
 									setState(prev => ({ ...prev, showAnswer: true }));
 									if (!state.answerToastShown) {
 										if (option === state.answer) {
-											toast.success("Correct!");
+											toast.success("Correct!", { position: "bottom-center" });
 										} else {
-											toast.error("Incorrect!");
+											toast.error("Incorrect!", { position: "bottom-center" });
 										}
 										setState(prev => ({ ...prev, answerToastShown: true }));
 									}
@@ -309,7 +309,7 @@ const Trivia = () => {
 
 			<About />
 			<Settings />
-			<Toaster />
+			<Toaster position="bottom-center" />
 		</div>
 	);
 };
