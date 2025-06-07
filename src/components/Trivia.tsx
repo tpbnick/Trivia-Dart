@@ -242,7 +242,7 @@ const Trivia = () => {
 			)}
 
 			{state.question && (
-				<div className="mt-4 mb-6 w-full max-w-2xl flex flex-col items-center">
+				<div className="mt-4 mb-6 w-full max-w-2xl flex flex-col items-center px-5 sm:px-0">
 					<p className="text-xl mb-6 text-center w-full flex items-center justify-center min-h-[3.5rem] text-base-content">
 						{state.question}
 					</p>
