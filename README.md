@@ -10,43 +10,77 @@
 
 </div>
 
-## Overview
+---
 
-TriviaDart is a simple Trivia web application that utilizes both the [Open Trivia DB ](https://opentdb.com/) and [The Trivia API](https://the-trivia-api.com/), which both offer generous free API usage. The Open Trivia DB Source is rate limited to one question every 5 seconds (an alert is shown when that source is selected to inform users). TriviaDart also has an in-house API that has over 45,000 trivia questions. The incorrect options for the TriviaDart source were created using OpenAI's GPT-4o model and may be incorrect. The in-house API utilizes Supabase.
+## 🎯 Overview
 
-TriviaDart allows you to select one of the above mentioned APIs, a category (`Any` by default), and the ability to show multiple choice options if you are stuck!
+**TriviaDart** is a modern trivia web app that lets you play with questions from:
+- [Open Trivia DB](https://opentdb.com/) 🌐
+- [The Trivia API](https://the-trivia-api.com/) 🌐
+- (Optional) Your own Supabase-powered TriviaDart backend 🗄️
 
-Themes! There are many themes and fonts available for you to customize TriviaDart to your preference. Simply click/press on the settings icon in the bottom right of the screen to select your theme, font, and font size.
+**Features:**
+- 🔄 Multiple sources and categories
+- ❓ Multiple choice options
+- 🎨 Customizable themes and fonts
+- 📱 Mobile-friendly, installable as a PWA
 
-## Install
+---
 
-You are able to install TriviaDart as a Progressive Web Application (PWA) on any modern device. This will allow the application to be "installed" and appear like any other application on your phone/tablet/desktop. To install TriviaDart as a PWA, follow these steps:
+## 🚀 Quick Start
 
-### Desktop:
+```bash
+git clone https://github.com/tpbnick/Trivia-Dart.git
+cd Trivia-Dart
+npm install
+npm run dev
+```
 
-1. Go to [TriviaDart](https://triviadart.com) in your browser.
-2. Depending on your browser, the next steps may change.
-3. Click on the "install" icon in the URL bar (often at the far-right end next to the share or favorite buttons).
-4. More information can be found in the [Mozilla Developer Documentation](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable#installation_from_the_web).
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Mobile:
+---
 
-1. Go to [TriviaDart](https://triviadart.com) in your browser.
-2. Depending on your browser, the next steps may change.
-3. If you are on iOS Safari, click the "Share" button, then click "Add to Home Screen".
-4. If you are on Android, click on the settings button, then click "Install".
+## ⚙️ Configuration
 
-Note: Chromium-based browsers work best for installation of PWAs.
+### 🛠️ Environment Variables
 
-## Development
+- `VITE_ENABLE_TRIVIADART` (default: `false`)
+  - Set to `true` to enable the TriviaDart (Supabase) source.
+  - Set to `false` to use only public APIs (no Supabase required).
 
-1. Clone this repo locally: `git clone https://github.com/tpbnick/Trivia-Dart.git`.
-2. Run `npm install` to install dependencies.
-3. Run `npm run dev` to start up the application.
+If using your own Supabase backend, also set:
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_APIKEY`
+- `VITE_TRIVIA_DART_APIKEY` (if needed)
 
-### Hosting Your Own TriviaDart Source
+Create a `.env` file in the project root and add your variables.
 
-If you want to use Supabase to run your own trivia database, you can create a database and a `.env` file in the root of this project. Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_APIKEY` to the `.env` for the SupaBase.ts file to load correctly. The TriviaDart database is setup with the table name `questions`, and the following columns:
+---
+
+## 🚢 Deploying
+
+### Netlify
+
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Add your environment variables in the Netlify dashboard.
+
+### 🐳 Docker 
+
+```bash
+docker-compose up
+```
+Or build with:
+```bash
+docker build --build-arg VITE_ENABLE_TRIVIADART=false .
+```
+
+---
+
+## 🗄️ Hosting Your Own TriviaDart Source (Optional)
+
+If you want to use your own Supabase backend:
+- Set up a `questions` table with the following columns:
 
 | Column Name         | Data Type |
 | ------------------- | --------- |
@@ -56,58 +90,28 @@ If you want to use Supabase to run your own trivia database, you can create a da
 | `answer`            | text      |
 | `incorrect_answers` | text[]    |
 
-The data inside the `incorrect_answers` is formatted as follows (Note: there must be three wrong answers for the Trivia.tsx component to render correctly):
+- The data inside the `incorrect_answers` column should be a text array, e.g.:
 
 ```json
 ["wrong answer 1", "wrong answer 2", "wrong answer 3"]
 ```
 
-You are free to use the `trivia.csv` file found in this repository to populate your own database. The questions inside this csv were sourced from [this Reddit post](https://www.reddit.com/r/trivia/comments/3wzpvt/free_database_of_50000_trivia_questions/). The `incorrect_answers` text[] were created using OpenAI's GPT-4o model and may be incorrect.
+- You are free to use the `trivia.csv` file found in this repository to populate your own database. The questions inside this csv were sourced from [this Reddit post](https://www.reddit.com/r/trivia/comments/3wzpvt/free_database_of_50000_trivia_questions/). The `incorrect_answers` text[] were created using OpenAI's GPT-4o model and may be incorrect.
 
-If you do NOT want to host your own TriviaDart source, see [How to Remove TriviaDart Source](#how-to-remove-triviadart-source).
+---
 
-### Free Hosting
+## 🛠️ Technology
 
-I personally host this web application on [Netlify](https://netlify.com), which will automatically build any time I make a push/merge to the `master` branch. Make sure to add the environment variables to your deployments on your preferred hosting provider.
+- ⚛️ [React](https://react.dev/) + [Vite](https://vitejs.dev/)
+- 📝 [TypeScript](https://www.typescriptlang.org/)
+- 💅 [TailwindCSS](https://tailwindcss.com/) + [DaisyUI](https://daisyui.com/)
+- 🗄️ [Supabase](https://supabase.com/) (optional)
+- 📦 [VitePWA](https://github.com/vite-pwa/vite-plugin-pwa)
 
-## Docker Deployment
+---
 
-TriviaDart is also deployable using Docker. Simply run `docker-compose up` inside the root folder of this application, with the Docker service running on your machine, and it should stand up a TriviaDart container running on port 3000. If you want to change this port, you can edit the docker-compose.yml file to use whichever port you want. **Important**: If you do not want to self host your own Supabase source, please review the next section. If you don't, the application will fail to build/deploy.
+## 📜 License & Credits
 
-## How to Remove TriviaDart Source
+- Questions from OpenTriviaDB and The-Trivia-API are licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/).
+- TriviaDart is open source and contributions are welcome!
 
-If you do **not** want to see the TriviaDart source in the sources dropdown (for example, if you do not want to host your own Supabase backend), you can easily disable it using an environment variable:
-
-1. In your `.env` or deployment environment, set:
-   ```
-   VITE_ENABLE_TRIVIADART=false
-   ```
-2. Redeploy or restart your application.
-
-When this variable is set to `false`, the TriviaDart source and its categories will be completely removed from the app, and no Supabase or TriviaDart-specific environment variables are required.
-
-### Docker Users
-If you are deploying with Docker, you can set this variable in your `docker-compose.yml` or pass it as a build argument:
-
-```yaml
-environment:
-  - VITE_ENABLE_TRIVIADART=false
-```
-
-Or build with:
-```sh
-docker build --build-arg VITE_ENABLE_TRIVIADART=false .
-```
-
-## Technology Used
-
-- [React](https://react.dev/) + [Vite](https://vitejs.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [TailwindCSS](https://tailwindcss.com/)
-- [DaisyUI](https://daisyui.com/)
-- [VitePWA](https://github.com/vite-pwa/vite-plugin-pwa)
-- [Supabase](https://supabase.com/)
-
-## Misc.
-
-All trivia questions provided by OpenTriviaDB and The-Trivia-API are licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
