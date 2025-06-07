@@ -242,14 +242,16 @@ const Trivia = () => {
 			)}
 
 			{state.question && (
-				<div className="mt-8 p-4 bg-base-200 rounded-lg max-w-2xl">
-					<p className="text-xl mb-4">{state.question}</p>
+				<div className="mt-10 mb-8 p-8 bg-base-200 rounded-2xl max-w-2xl shadow-lg flex flex-col items-center">
+					<p className="text-xl mb-6 text-center w-full flex items-center justify-center min-h-[3.5rem]">
+						{state.question}
+					</p>
 					{state.showOptions && (
-						<div className="grid grid-cols-1 gap-2">
+						<div className="grid grid-cols-1 gap-2 w-full">
 							{state.options.map((option, index) => (
 								<button
 									key={index}
-									className={`btn ${
+									className={`btn w-full ${
 										state.showAnswer
 											? option === state.answer
 												? "btn-success"
@@ -274,9 +276,9 @@ const Trivia = () => {
 						</div>
 					)}
 					{!state.showOptions && (
-						<div className="flex justify-center">
+						<div className="flex justify-center w-full">
 							<button
-								className="btn btn-primary mt-4"
+								className="btn btn-primary mt-6"
 								onClick={() => setState(prev => ({ ...prev, showOptions: true }))}
 							>
 								Show Options
@@ -287,7 +289,7 @@ const Trivia = () => {
 			)}
 
 			{state.question && state.showOptions && (
-				<div className="flex justify-center mt-6">
+				<div className="flex justify-center mb-10">
 					<button
 						className="btn btn-primary"
 						onClick={handleButtonClick}
