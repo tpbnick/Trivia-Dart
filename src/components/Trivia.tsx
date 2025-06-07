@@ -26,7 +26,6 @@ const INITIAL_STATE: TriviaState = {
 	questionType: null,
 	showAnswer: false,
 	options: [],
-	showOptions: false,
 	loading: false,
 	error: null,
 	showAlert: true,
@@ -47,7 +46,6 @@ const Trivia = () => {
 			selectedSource: value,
 			selectedCategory: "Any",
 			showAnswer: false,
-			showOptions: false,
 		}));
 	};
 
@@ -58,7 +56,6 @@ const Trivia = () => {
 			...prev,
 			selectedCategory: value,
 			showAnswer: false,
-			showOptions: false,
 		}));
 		if (state.question) {
 			handleButtonClick();
@@ -71,7 +68,6 @@ const Trivia = () => {
 			...prev,
 			loading: true,
 			showAnswer: false,
-			showOptions: true,
 			error: null,
 			question: null,
 			answerToastShown: false,

@@ -29,7 +29,6 @@ export interface TriviaState {
 	questionType: string | null;
 	showAnswer: boolean;
 	options: string[];
-	showOptions: boolean;
 	loading: boolean;
 	error: string | null;
 	showAlert: boolean;
