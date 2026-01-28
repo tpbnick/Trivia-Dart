@@ -16,7 +16,7 @@ import {
 	OPEN_TRIVIA_CATEGORIES,
 	TRIVIA_DART_CATEGORIES,
 } from "../constants/trivia";
-import { decodeHTML, shuffleAnswers, getTriviaUrl, handleTriviaError } from "../utils/trivia";
+import { decodeHTML, shuffleAnswers, arrangeAnswers, getTriviaUrl, handleTriviaError } from "../utils/trivia";
 
 const INITIAL_STATE: TriviaState = {
 	selectedSource: Object.keys(TRIVIA_SOURCES)[0],
@@ -92,7 +92,7 @@ const Trivia = () => {
 					...prev,
 					question: question.question,
 					answer: question.answer,
-					options: shuffleAnswers([...question.incorrect_answers, question.answer]),
+					options: arrangeAnswers([...question.incorrect_answers, question.answer]),
 				}));
 			} else {
 				const headers: Record<string, string> = {};
@@ -296,10 +296,16 @@ const Trivia = () => {
 
 			<div className="fixed bottom-4 right-4 flex gap-2">
 				<label htmlFor="about-modal">
-					<FontAwesomeIcon icon={faCircleQuestion} className="text-4xl" />
+					<FontAwesomeIcon
+						icon={faCircleQuestion}
+						className="text-4xl transition-all duration-200 transform hover:scale-110 cursor-pointer"
+					/>
 				</label>
 				<label htmlFor="settings-modal">
-					<FontAwesomeIcon icon={faGears} className="text-4xl" />
+					<FontAwesomeIcon
+						icon={faGears}
+						className="text-4xl transition-all duration-200 transform hover:scale-110 cursor-pointer"
+					/>
 				</label>
 			</div>
 

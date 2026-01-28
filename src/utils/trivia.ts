@@ -8,6 +8,19 @@ export const shuffleAnswers = (array: string[]): string[] => {
 	return array.sort(() => Math.random() - 0.5);
 };
 
+export const arrangeAnswers = (array: string[]): string[] => {
+	const isTrueFalse = array.length === 2 && 
+		array.includes("True") && 
+		array.includes("False");
+	
+	if (isTrueFalse) {
+		// Always put "True" first for True/False questions
+		return ["True", "False"];
+	}
+	
+	return shuffleAnswers(array);
+};
+
 export const getTriviaUrl = (
 	selectedSource: string,
 	selectedCategory: string,
@@ -20,7 +33,6 @@ export const getTriviaUrl = (
 	} else if (selectedSource === "The Trivia API" && selectedCategory !== "Any") {
 		triviaUrl += `&categories=${categories[selectedCategory]}`;
 	}
-	// Add similar logic for TriviaDart if needed
 	return triviaUrl;
 };
 
