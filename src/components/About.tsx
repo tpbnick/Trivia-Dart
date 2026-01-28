@@ -52,11 +52,13 @@ const About: React.FC = () => {
 						.
 					</p>
 					<p className="pb-5">
-						Questions provided by TriviaDart directly utilize questions found on the
-						open web and are therefore open source and completely free to use. The
-						trivia.csv file can be downloaded from the{" "}
-						<ExternalLink href="https://github.com/tpbnick/trivia-app">
-							Github repository
+						Questions provided by TriviaDart are sourced from the{" "}
+						<ExternalLink href="https://github.com/uberspot/OpenTriviaQA">
+							OpenTriviaQA dataset
+						</ExternalLink>
+						, which is licensed under the{" "}
+						<ExternalLink href="https://creativecommons.org/licenses/by-sa/4.0/">
+							Creative Commons Attribution-ShareAlike 4.0 International License
 						</ExternalLink>
 						.
 					</p>

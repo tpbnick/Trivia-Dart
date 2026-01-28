@@ -96,7 +96,7 @@ If you want to use your own Supabase backend:
 ["wrong answer 1", "wrong answer 2", "wrong answer 3"]
 ```
 
-- You are free to use the `trivia.csv` file found in this repository to populate your own database. The questions inside this csv were sourced from [this Reddit post](https://www.reddit.com/r/trivia/comments/3wzpvt/free_database_of_50000_trivia_questions/). The `incorrect_answers` text[] were created using OpenAI's GPT-4o model and may be incorrect.
+- You are free to use the `trivia.csv` file found in this repository to populate your own database. The questions inside this csv are sourced from the [OpenTriviaQA dataset](https://github.com/uberspot/OpenTriviaQA), which is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
 
 ---
 
@@ -113,5 +113,6 @@ If you want to use your own Supabase backend:
 ## 📜 License & Credits
 
 - Questions from OpenTriviaDB and The-Trivia-API are licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/).
+- Questions from TriviaDart are sourced from the [OpenTriviaQA dataset](https://github.com/uberspot/OpenTriviaQA) and are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 - TriviaDart is open source and contributions are welcome!
 

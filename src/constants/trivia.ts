@@ -43,19 +43,24 @@ export const OPEN_TRIVIA_CATEGORIES: TriviaCategory = {
 
 export const TRIVIA_DART_CATEGORIES: TriviaCategory = {
 	Any: "",
-	"Art & Literature": "art_and_literature",
+	Animals: "animals",
+	Celebrities: "celebrities",
 	Entertainment: "entertainment",
-	"Food & Drink": "food_and_drink",
+	"For Kids": "for-kids",
 	General: "general",
 	Geography: "geography",
-	Language: "language",
+	History: "history",
+	Hobbies: "hobbies",
+	Humanities: "humanities",
+	Literature: "literature",
+	Movies: "movies",
 	Music: "music",
-	"People & Places": "people_and_places",
-	"Religion & Mythology": "religion_and_mythology",
-	"Science & Nature": "science_and_nature",
-	"Sports & Leisure": "sports_and_leisure",
-	"Tech & Video Games": "tech_and_video_games",
-	"Toys & Games": "toys_and_games",
+	People: "people",
+	"Science & Technology": "science-and-technology",
+	Sports: "sports",
+	Television: "television",
+	"Video Games": "video-games",
+	World: "world",
 };
 
 export const TRIVIA_DART_CATEGORIES_ENABLED = ENABLE_TRIVIADART ? TRIVIA_DART_CATEGORIES : {}; 
