@@ -1,10 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   plugins: [
     react(),
+    tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {
@@ -51,11 +53,4 @@ export default defineConfig({
     strictPort: true,
     port: 3000
   },
-  build: {
-    rollupOptions: {
-      external: [
-        'src/components/NoTriviaDartSource/Trivia.tsx'
-      ]
-    }
-  }
 });

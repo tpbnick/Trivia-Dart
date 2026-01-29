@@ -17,7 +17,6 @@ export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey, {
 		autoRefreshToken: true,
 	},
 });
-
 // Type guard to check if Supabase is properly initialized
 export const isSupabaseInitialized = (): boolean => {
 	return !!supabase && !!supabaseUrl && !!supabaseKey;
@@ -31,3 +30,4 @@ export const handleSupabaseError = (error: unknown): string => {
 	}
 	return "An unknown error occurred with Supabase";
 };
+

@@ -1,9 +1,10 @@
 export type Theme = 
-	| "light" | "dark" | "cupcake" | "bumblebee" | "emerald" | "corporate"
-	| "synthwave" | "retro" | "cyberpunk" | "valentine" | "halloween"
-	| "garden" | "forest" | "aqua" | "lofi" | "pastel" | "fantasy"
-	| "wireframe" | "black" | "luxury" | "dracula" | "cmyk" | "autumn"
-	| "business" | "acid" | "lemonade" | "night" | "coffee" | "winter";
+	| "abyss" | "acid" | "aqua" | "autumn" | "black" | "bumblebee"
+	| "business" | "caramellatte" | "coffee" | "corporate" | "cmyk" | "cupcake"
+	| "cyberpunk" | "dark" | "dim" | "dracula" | "emerald" | "fantasy"
+	| "forest" | "garden" | "halloween" | "lemonade" | "light" | "lofi"
+	| "luxury" | "night" | "nord" | "pastel" | "retro" | "silk"
+	| "sunset" | "synthwave" | "valentine" | "wireframe" | "winter";
 
 export type Font = "Roboto" | "Roboto Mono" | "Sono" | "Montserrat" | "Times New Roman";
 

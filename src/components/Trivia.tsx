@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, useCallback, useEffect } from "react";
 import About from "./About";
 import Settings from "./Settings";
 import toast, { Toaster } from "react-hot-toast";
@@ -34,35 +34,45 @@ const INITIAL_STATE: TriviaState = {
 
 const ENABLE_TRIVIADART = Object.prototype.hasOwnProperty.call(TRIVIA_SOURCES, "TriviaDart");
 
+// Helper function to get categories for current source
+const getCategoriesForSource = (source: string) => {
+	if (source === "Open Trivia DB") {
+		return OPEN_TRIVIA_CATEGORIES;
+	}
+	if (ENABLE_TRIVIADART && source === "TriviaDart") {
+		return TRIVIA_DART_CATEGORIES;
+	}
+	return TRIVIA_DB_CATEGORIES;
+};
+
+// Helper function to get button text
+const getButtonText = (hasShownQuestion: boolean, loading: boolean): string => {
+	if (loading) return "Loading...";
+	return hasShownQuestion ? "Next Question" : "Get Question";
+};
+
 const Trivia = () => {
 	const [state, setState] = useState<TriviaState>(INITIAL_STATE);
 	const [hasShownQuestion, setHasShownQuestion] = useState(false);
 
-	const handleSourceChange = ({
-		target: { value },
-	}: ChangeEvent<HTMLSelectElement>) => {
-		setState(prev => ({
-			...prev,
-			selectedSource: value,
-			selectedCategory: "Any",
-			showAnswer: false,
-		}));
-	};
-
-	const handleCategoryChange = ({
-		target: { value },
-	}: ChangeEvent<HTMLSelectElement>) => {
-		setState(prev => ({
-			...prev,
-			selectedCategory: value,
-			showAnswer: false,
-		}));
+	// Auto-fetch new question when category changes and a question is already displayed
+	useEffect(() => {
 		if (state.question) {
 			handleButtonClick();
 		}
-	};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [state.selectedCategory]);
 
-	const handleButtonClick = async () => {
+	const handleSourceChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+		setState(prev => ({
+			...prev,
+			selectedSource: event.target.value,
+			selectedCategory: "Any",
+			showAnswer: false,
+		}));
+	}, []);
+
+	const handleButtonClick = useCallback(async () => {
 		setHasShownQuestion(true);
 		setState(prev => ({
 			...prev,
@@ -104,9 +114,7 @@ const Trivia = () => {
 					state.selectedSource,
 					state.selectedCategory,
 					TRIVIA_SOURCES,
-					state.selectedSource === "Open Trivia DB"
-						? OPEN_TRIVIA_CATEGORIES
-						: TRIVIA_DB_CATEGORIES
+					getCategoriesForSource(state.selectedSource)
 				);
 
 				const response = await fetch(triviaUrl, { headers });
@@ -172,20 +180,28 @@ const Trivia = () => {
 		} finally {
 			setState(prev => ({ ...prev, loading: false }));
 		}
-	};
+	}, [state.selectedSource, state.selectedCategory]);
+
+	const handleCategoryChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+		setState(prev => ({
+			...prev,
+			selectedCategory: event.target.value,
+			showAnswer: false,
+		}));
+	}, []);
 
 	return (
 		<div className="my-1 flex flex-col items-center pt-4">
 			<div className="pt-3 pb-5 text-5xl font-mono select-none">Trivia🎯</div>
 			<div className="flex py-4">
-				<div className="form-control w-full max-w-xs">
+				<div className="form-control w-64">
 					<label className="label">
 						<span className="label-text">Source</span>
 					</label>
 					<select
 						value={state.selectedSource}
 						onChange={handleSourceChange}
-						className="select select-bordered w-full max-w-lg"
+						className="select select-bordered w-full"
 					>
 						{Object.keys(TRIVIA_SOURCES).map((source, i) => (
 							<option key={i} value={source}>
@@ -195,22 +211,16 @@ const Trivia = () => {
 					</select>
 				</div>
 
-				<div className="form-control w-full max-w-xs ml-4">
+				<div className="form-control w-64 ml-4">
 					<label className="label">
 						<span className="label-text">Category</span>
 					</label>
 					<select
 						value={state.selectedCategory}
 						onChange={handleCategoryChange}
-						className="select select-bordered w-full max-w-lg"
+						className="select select-bordered w-full"
 					>
-						{Object.keys(
-							state.selectedSource === "Open Trivia DB"
-								? OPEN_TRIVIA_CATEGORIES
-								: ENABLE_TRIVIADART && state.selectedSource === "TriviaDart"
-								? TRIVIA_DART_CATEGORIES
-								: TRIVIA_DB_CATEGORIES
-						).map((category, i) => (
+						{Object.keys(getCategoriesForSource(state.selectedSource)).map((category, i) => (
 							<option key={i} value={category}>
 								{category}
 							</option>
@@ -243,31 +253,34 @@ const Trivia = () => {
 						{state.question}
 					</p>
 					<div className="grid grid-cols-1 gap-2 w-full">
-						{state.options.map((option, index) => (
-							<button
-								key={index}
-								className={`btn w-full ${
-									state.showAnswer
-										? option === state.answer
-											? "btn-success"
-											: "btn-error"
-										: "btn-primary"
-								}`}
-								onClick={() => {
-									setState(prev => ({ ...prev, showAnswer: true }));
-									if (!state.answerToastShown) {
-										if (option === state.answer) {
-											toast.success("Correct!", { position: "bottom-center" });
-										} else {
-											toast.error("Incorrect!", { position: "bottom-center" });
+						{state.options.map((option, index) => {
+							const isCorrect = option === state.answer;
+							const buttonClass = state.showAnswer
+								? isCorrect
+									? "btn-success"
+									: "btn-error"
+								: "btn-primary";
+							
+							return (
+								<button
+									key={`${option}-${index}`}
+									className={`btn w-full ${buttonClass}`}
+									onClick={() => {
+										setState(prev => ({ ...prev, showAnswer: true }));
+										if (!state.answerToastShown) {
+											if (isCorrect) {
+												toast.success("Correct!", { position: "bottom-center" });
+											} else {
+												toast.error("Incorrect!", { position: "bottom-center" });
+											}
+											setState(prev => ({ ...prev, answerToastShown: true }));
 										}
-										setState(prev => ({ ...prev, answerToastShown: true }));
-									}
-								}}
-							>
-								{option}
-							</button>
-						))}
+									}}
+								>
+									{option}
+								</button>
+							);
+						})}
 					</div>
 				</div>
 			)}
@@ -279,7 +292,7 @@ const Trivia = () => {
 						onClick={handleButtonClick}
 						disabled={state.loading}
 					>
-						{hasShownQuestion ? "Next Question" : state.loading ? "Loading..." : "Get Question"}
+						{getButtonText(hasShownQuestion, state.loading)}
 					</button>
 				</div>
 			)}
@@ -290,7 +303,7 @@ const Trivia = () => {
 					onClick={handleButtonClick}
 					disabled={state.loading}
 				>
-					{hasShownQuestion ? "Next Question" : state.loading ? "Loading..." : "Get Question"}
+					{getButtonText(hasShownQuestion, state.loading)}
 				</button>
 			)}
 
@@ -298,13 +311,13 @@ const Trivia = () => {
 				<label htmlFor="about-modal">
 					<FontAwesomeIcon
 						icon={faCircleQuestion}
-						className="text-4xl transition-all duration-200 transform hover:scale-110 cursor-pointer"
+						className="text-4xl transition-all duration-200 hover:scale-110 cursor-pointer"
 					/>
 				</label>
 				<label htmlFor="settings-modal">
 					<FontAwesomeIcon
 						icon={faGears}
-						className="text-4xl transition-all duration-200 transform hover:scale-110 cursor-pointer"
+						className="text-4xl transition-all duration-200 hover:scale-110 cursor-pointer"
 					/>
 				</label>
 			</div>

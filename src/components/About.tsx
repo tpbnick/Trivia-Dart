@@ -1,14 +1,15 @@
+import type { ReactNode } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faCodeMerge } from "@fortawesome/free-solid-svg-icons";
 
 interface ExternalLinkProps {
 	href: string;
-	children: React.ReactNode;
+	children: ReactNode;
 	className?: string;
 }
 
-const ExternalLink: React.FC<ExternalLinkProps> = ({ href, children, className = "" }) => (
+const ExternalLink = ({ href, children, className = "" }: ExternalLinkProps) => (
 	<a
 		href={href}
 		target="_blank"
@@ -19,14 +20,14 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({ href, children, className =
 	</a>
 );
 
-const About: React.FC = () => {
+const About = () => {
 	const gitSha = import.meta.env.VITE_GIT_SHA || "unknown";
 	const buildDate = import.meta.env.VITE_BUILD_DATE || "unknown";
 
 	return (
 		<div>
 			<input type="checkbox" id="about-modal" className="modal-toggle" />
-			<label htmlFor="about-modal" className="modal cursor-pointer">
+			<div className="modal" role="dialog">
 				<div className="modal-box relative">
 					<label
 						htmlFor="about-modal"
@@ -69,7 +70,7 @@ const About: React.FC = () => {
 					>
 						<FontAwesomeIcon
 							icon={faGithub}
-							className="hover:text-secondary transition-all duration-200 transform hover:scale-110"
+							className="hover:text-secondary transition-all duration-200 hover:scale-110"
 							aria-label="GitHub repository"
 						/>
 					</ExternalLink>
@@ -85,7 +86,8 @@ const About: React.FC = () => {
 						Built: {buildDate}
 					</p>
 				</div>
-			</label>
+				<label className="modal-backdrop" htmlFor="about-modal">Close</label>
+			</div>
 		</div>
 	);
 };

@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import { SettingsState, Theme, Font } from "../types/settings";
 import { AVAILABLE_THEMES, AVAILABLE_FONTS, FONT_SIZE } from "../constants/settings";
@@ -7,26 +7,26 @@ import { loadSettings, saveSettings, applySettings } from "../utils/settings";
 const Settings = () => {
 	const [settings, setSettings] = useState<SettingsState>(loadSettings());
 
-	const capitalizeFirstLetter = (str: string): string => {
+	const capitalizeFirstLetter = useCallback((str: string): string => {
 		return str.charAt(0).toUpperCase() + str.slice(1);
-	};
+	}, []);
 
-	const handleThemeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+	const handleThemeChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
 		const selectedTheme = event.target.value as Theme;
 		const newSettings = { ...settings, theme: selectedTheme };
 		setSettings(newSettings);
 		saveSettings(newSettings);
 		toast.success(`Theme changed to ${capitalizeFirstLetter(selectedTheme)}`);
-	};
+	}, [settings, capitalizeFirstLetter]);
 
-	const handleFontChange = (event: ChangeEvent<HTMLSelectElement>) => {
+	const handleFontChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
 		const selectedFont = event.target.value as Font;
 		const newSettings = { ...settings, font: selectedFont };
 		setSettings(newSettings);
 		saveSettings(newSettings);
-	};
+	}, [settings]);
 
-	const handleFontSizeChange = (action: "increment" | "decrement") => {
+	const handleFontSizeChange = useCallback((action: "increment" | "decrement") => {
 		const newFontSize = action === "increment"
 			? settings.fontSize + FONT_SIZE.STEP
 			: settings.fontSize - FONT_SIZE.STEP;
@@ -36,7 +36,7 @@ const Settings = () => {
 			setSettings(newSettings);
 			saveSettings(newSettings);
 		}
-	};
+	}, [settings]);
 
 	useEffect(() => {
 		applySettings(settings);
@@ -45,8 +45,8 @@ const Settings = () => {
 	return (
 		<div>
 			<input type="checkbox" id="settings-modal" className="modal-toggle" />
-			<label htmlFor="settings-modal" className="modal cursor-pointer">
-				<div className="modal-box relative">
+			<div className="modal" role="dialog">
+				<div className="modal-box relative max-h-[90vh] overflow-y-auto">
 					<label
 						htmlFor="settings-modal"
 						className="btn btn-sm btn-circle absolute right-3 top-3"
@@ -92,26 +92,26 @@ const Settings = () => {
 							))}
 						</select>
 					</div>
-					<div className="form-control flex justify-between items-center">
+					<div className="form-control flex flex-col items-center gap-3">
 						<label className="label">
 							<span className="label-text">Change font size:</span>
 						</label>
-						<div className="flex items-center">
+						<div className="flex items-center gap-3">
 							<button
 								type="button"
 								onClick={() => handleFontSizeChange("decrement")}
-								className={`btn btn-sm btn-secondary text-xl flex items-center justify-center w-8 h-8 ${
+								className={`btn btn-sm btn-neutral text-xl flex items-center justify-center w-8 h-8 ${
 									settings.fontSize <= FONT_SIZE.MIN ? "btn-disabled" : ""
 								}`}
 								disabled={settings.fontSize <= FONT_SIZE.MIN}
 							>
 								-
 							</button>
-							<span className="mx-2 text-xl">{settings.fontSize}</span>
+							<span className="text-xl min-w-[2rem] text-center">{settings.fontSize}</span>
 							<button
 								type="button"
 								onClick={() => handleFontSizeChange("increment")}
-								className={`btn btn-sm btn-secondary text-xl flex items-center justify-center w-8 h-8 ${
+								className={`btn btn-sm btn-neutral text-xl flex items-center justify-center w-8 h-8 ${
 									settings.fontSize >= FONT_SIZE.MAX ? "btn-disabled" : ""
 								}`}
 								disabled={settings.fontSize >= FONT_SIZE.MAX}
@@ -121,7 +121,8 @@ const Settings = () => {
 						</div>
 					</div>
 				</div>
-			</label>
+				<label className="modal-backdrop" htmlFor="settings-modal">Close</label>
+			</div>
 		</div>
 	);
 };

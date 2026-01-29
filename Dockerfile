@@ -1,5 +1,5 @@
-# Use the latest slim version of nodejs
-FROM node:current-slim
+# Use Node.js 22 (required for Vite 7)
+FROM node:22-slim
 
 # Set the working directory inside the container
 WORKDIR /app

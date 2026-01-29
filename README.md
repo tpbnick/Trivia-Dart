@@ -115,4 +115,3 @@ If you want to use your own Supabase backend:
 - Questions from OpenTriviaDB and The-Trivia-API are licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/).
 - Questions from TriviaDart are sourced from the [OpenTriviaQA dataset](https://github.com/uberspot/OpenTriviaQA) and are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 - TriviaDart is open source and contributions are welcome!
-

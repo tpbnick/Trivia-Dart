@@ -5,7 +5,9 @@ export const decodeHTML = (html: string): string => {
 };
 
 export const shuffleAnswers = (array: string[]): string[] => {
-	return array.sort(() => Math.random() - 0.5);
+	// Create a copy to avoid mutating the original array
+	const shuffled = [...array];
+	return shuffled.sort(() => Math.random() - 0.5);
 };
 
 export const arrangeAnswers = (array: string[]): string[] => {
