@@ -56,7 +56,7 @@ export const TRIVIA_DART_CATEGORIES: TriviaCategory = {
 	Movies: "movies",
 	Music: "music",
 	People: "people",
-	"Science & Technology": "science-and-technology",
+	"Science & Technology": "science-technology",
 	Sports: "sports",
 	Television: "television",
 	"Video Games": "video-games",
