@@ -193,8 +193,8 @@ const Trivia = () => {
 	return (
 		<div className="my-1 flex flex-col items-center pt-4">
 			<div className="pt-3 pb-5 text-5xl font-mono select-none">Trivia🎯</div>
-			<div className="flex flex-col sm:flex-row sm:justify-center gap-4 py-4 w-full max-w-2xl px-4 sm:px-0">
-				<div className="form-control w-full sm:w-64 min-w-0">
+			<div className="flex flex-row justify-center gap-4 py-4 w-full max-w-2xl px-4">
+				<div className="form-control flex-1 min-w-0 sm:flex-none sm:w-64">
 					<label className="label">
 						<span className="label-text">Source</span>
 					</label>
@@ -211,7 +211,7 @@ const Trivia = () => {
 					</select>
 				</div>
 
-				<div className="form-control w-full sm:w-64 min-w-0">
+				<div className="form-control flex-1 min-w-0 sm:flex-none sm:w-64">
 					<label className="label">
 						<span className="label-text">Category</span>
 					</label>
