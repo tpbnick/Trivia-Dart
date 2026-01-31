@@ -193,15 +193,15 @@ const Trivia = () => {
 	return (
 		<div className="my-1 flex flex-col items-center pt-4">
 			<div className="pt-3 pb-5 text-5xl font-mono select-none">Trivia🎯</div>
-			<div className="flex py-4">
-				<div className="form-control w-64">
+			<div className="flex flex-col sm:flex-row sm:justify-center gap-4 py-4 w-full max-w-2xl px-4 sm:px-0">
+				<div className="form-control w-full sm:w-64 min-w-0">
 					<label className="label">
 						<span className="label-text">Source</span>
 					</label>
 					<select
 						value={state.selectedSource}
 						onChange={handleSourceChange}
-						className="select select-bordered w-full"
+						className="select select-bordered w-full max-w-full"
 					>
 						{Object.keys(TRIVIA_SOURCES).map((source, i) => (
 							<option key={i} value={source}>
@@ -211,14 +211,14 @@ const Trivia = () => {
 					</select>
 				</div>
 
-				<div className="form-control w-64 ml-4">
+				<div className="form-control w-full sm:w-64 min-w-0">
 					<label className="label">
 						<span className="label-text">Category</span>
 					</label>
 					<select
 						value={state.selectedCategory}
 						onChange={handleCategoryChange}
-						className="select select-bordered w-full"
+						className="select select-bordered w-full max-w-full"
 					>
 						{Object.keys(getCategoriesForSource(state.selectedSource)).map((category, i) => (
 							<option key={i} value={category}>
