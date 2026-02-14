@@ -182,12 +182,12 @@ const Trivia = () => {
 		}));
 	}, []);
 
-	// Auto-fetch new question when category changes and a question is already displayed
 	useEffect(() => {
 		if (state.question) {
 			handleButtonClick();
 		}
-	}, [state.selectedCategory, state.question, handleButtonClick]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [state.selectedCategory, handleButtonClick]);
 
 	return (
 		<div className="my-1 flex flex-col items-center pt-4">
@@ -261,7 +261,6 @@ const Trivia = () => {
 									? "btn-success"
 									: "btn-error"
 								: "btn-primary";
-							// Use option + index as key in case of duplicate option text (e.g. multiple "True" in bad data)
 							return (
 								<button
 									key={`${option}-${index}`}
