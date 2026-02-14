@@ -13,30 +13,36 @@ const Settings = () => {
 
 	const handleThemeChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
 		const selectedTheme = event.target.value as Theme;
-		const newSettings = { ...settings, theme: selectedTheme };
-		setSettings(newSettings);
-		saveSettings(newSettings);
+		setSettings(prev => {
+			const newSettings = { ...prev, theme: selectedTheme };
+			saveSettings(newSettings);
+			return newSettings;
+		});
 		toast.success(`Theme changed to ${capitalizeFirstLetter(selectedTheme)}`);
-	}, [settings, capitalizeFirstLetter]);
+	}, [capitalizeFirstLetter]);
 
 	const handleFontChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
 		const selectedFont = event.target.value as Font;
-		const newSettings = { ...settings, font: selectedFont };
-		setSettings(newSettings);
-		saveSettings(newSettings);
-	}, [settings]);
+		setSettings(prev => {
+			const newSettings = { ...prev, font: selectedFont };
+			saveSettings(newSettings);
+			return newSettings;
+		});
+	}, []);
 
 	const handleFontSizeChange = useCallback((action: "increment" | "decrement") => {
-		const newFontSize = action === "increment"
-			? settings.fontSize + FONT_SIZE.STEP
-			: settings.fontSize - FONT_SIZE.STEP;
-
-		if (newFontSize >= FONT_SIZE.MIN && newFontSize <= FONT_SIZE.MAX) {
-			const newSettings = { ...settings, fontSize: newFontSize };
-			setSettings(newSettings);
-			saveSettings(newSettings);
-		}
-	}, [settings]);
+		setSettings(prev => {
+			const newFontSize = action === "increment"
+				? prev.fontSize + FONT_SIZE.STEP
+				: prev.fontSize - FONT_SIZE.STEP;
+			if (newFontSize >= FONT_SIZE.MIN && newFontSize <= FONT_SIZE.MAX) {
+				const newSettings = { ...prev, fontSize: newFontSize };
+				saveSettings(newSettings);
+				return newSettings;
+			}
+			return prev;
+		});
+	}, []);
 
 	useEffect(() => {
 		applySettings(settings);

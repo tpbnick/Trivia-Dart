@@ -55,14 +55,6 @@ const Trivia = () => {
 	const [state, setState] = useState<TriviaState>(INITIAL_STATE);
 	const [hasShownQuestion, setHasShownQuestion] = useState(false);
 
-	// Auto-fetch new question when category changes and a question is already displayed
-	useEffect(() => {
-		if (state.question) {
-			handleButtonClick();
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [state.selectedCategory]);
-
 	const handleSourceChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
 		setState(prev => ({
 			...prev,
@@ -90,7 +82,7 @@ const Trivia = () => {
 				});
 
 				if (error) {
-					throw new Error(`Error fetching data from SupaBase: ${error.message}`);
+					throw new Error(`Error fetching data from Supabase: ${error.message}`);
 				}
 
 				if (!data || data.length === 0) {
@@ -190,21 +182,29 @@ const Trivia = () => {
 		}));
 	}, []);
 
+	// Auto-fetch new question when category changes and a question is already displayed
+	useEffect(() => {
+		if (state.question) {
+			handleButtonClick();
+		}
+	}, [state.selectedCategory, state.question, handleButtonClick]);
+
 	return (
 		<div className="my-1 flex flex-col items-center pt-4">
 			<div className="pt-3 pb-5 text-5xl font-mono select-none">Trivia🎯</div>
 			<div className="flex flex-row justify-center gap-4 py-4 w-full max-w-2xl px-4">
 				<div className="form-control flex-1 min-w-0 sm:flex-none sm:w-64">
-					<label className="label">
+					<label className="label" htmlFor="source-select">
 						<span className="label-text">Source</span>
 					</label>
 					<select
+						id="source-select"
 						value={state.selectedSource}
 						onChange={handleSourceChange}
 						className="select select-bordered w-full max-w-full"
 					>
-						{Object.keys(TRIVIA_SOURCES).map((source, i) => (
-							<option key={i} value={source}>
+						{Object.keys(TRIVIA_SOURCES).map((source) => (
+							<option key={source} value={source}>
 								{source}
 							</option>
 						))}
@@ -212,16 +212,17 @@ const Trivia = () => {
 				</div>
 
 				<div className="form-control flex-1 min-w-0 sm:flex-none sm:w-64">
-					<label className="label">
+					<label className="label" htmlFor="category-select">
 						<span className="label-text">Category</span>
 					</label>
 					<select
+						id="category-select"
 						value={state.selectedCategory}
 						onChange={handleCategoryChange}
 						className="select select-bordered w-full max-w-full"
 					>
-						{Object.keys(getCategoriesForSource(state.selectedSource)).map((category, i) => (
-							<option key={i} value={category}>
+						{Object.keys(getCategoriesForSource(state.selectedSource)).map((category) => (
+							<option key={category} value={category}>
 								{category}
 							</option>
 						))}
@@ -260,21 +261,23 @@ const Trivia = () => {
 									? "btn-success"
 									: "btn-error"
 								: "btn-primary";
-							
+							// Use option + index as key in case of duplicate option text (e.g. multiple "True" in bad data)
 							return (
 								<button
 									key={`${option}-${index}`}
 									className={`btn w-full ${buttonClass}`}
 									onClick={() => {
-										setState(prev => ({ ...prev, showAnswer: true }));
-										if (!state.answerToastShown) {
+										setState(prev => {
+											if (prev.answerToastShown) {
+												return { ...prev, showAnswer: true };
+											}
 											if (isCorrect) {
 												toast.success("Correct!", { position: "bottom-center" });
 											} else {
 												toast.error("Incorrect!", { position: "bottom-center" });
 											}
-											setState(prev => ({ ...prev, answerToastShown: true }));
-										}
+											return { ...prev, showAnswer: true, answerToastShown: true };
+										});
 									}}
 								>
 									{option}

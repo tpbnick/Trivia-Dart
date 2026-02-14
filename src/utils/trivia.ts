@@ -4,10 +4,14 @@ export const decodeHTML = (html: string): string => {
 	return txt.value;
 };
 
+/** Fisher–Yates shuffle for uniform random ordering. */
 export const shuffleAnswers = (array: string[]): string[] => {
-	// Create a copy to avoid mutating the original array
 	const shuffled = [...array];
-	return shuffled.sort(() => Math.random() - 0.5);
+	for (let i = shuffled.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+	}
+	return shuffled;
 };
 
 export const arrangeAnswers = (array: string[]): string[] => {
