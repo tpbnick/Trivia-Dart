@@ -12,22 +12,24 @@
 
 ---
 
-## 🎯 Overview
+## Overview
 
 **TriviaDart** is a modern trivia web app that lets you play with questions from:
-- [Open Trivia DB](https://opentdb.com/) 🌐
-- [The Trivia API](https://the-trivia-api.com/) 🌐
-- (Optional) Your own Supabase-powered TriviaDart backend 🗄️
+
+- [Open Trivia DB](https://opentdb.com/)
+- [The Trivia API](https://the-trivia-api.com/)
+- (Optional) Your own Supabase-powered TriviaDart backend
 
 **Features:**
-- 🔄 Multiple sources and categories
-- ❓ Multiple choice options
-- 🎨 Customizable themes and fonts
-- 📱 Mobile-friendly, installable as a PWA
+
+- Multiple sources and categories
+- Multiple choice options
+- Customizable themes and fonts
+- Mobile-friendly, installable as a PWA
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 git clone https://github.com/tpbnick/Trivia-Dart.git
@@ -40,15 +42,16 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
-### 🛠️ Environment Variables
+### Environment Variables
 
 - `VITE_ENABLE_TRIVIADART` (default: `false`)
   - Set to `true` to enable the TriviaDart (Supabase) source.
   - Set to `false` to use only public APIs (no Supabase required).
 
 If using your own Supabase backend, also set:
+
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_APIKEY`
 - `VITE_TRIVIA_DART_APIKEY` (if needed)
@@ -57,7 +60,7 @@ Create a `.env` file in the project root and add your variables.
 
 ---
 
-## 🚢 Deploying
+## Deploying
 
 ### Netlify
 
@@ -65,21 +68,24 @@ Create a `.env` file in the project root and add your variables.
 - Publish directory: `dist`
 - Add your environment variables in the Netlify dashboard.
 
-### 🐳 Docker 
+### Docker
 
 ```bash
 docker-compose up
 ```
+
 Or build with:
+
 ```bash
 docker build --build-arg VITE_ENABLE_TRIVIADART=false .
 ```
 
 ---
 
-## 🗄️ Hosting Your Own TriviaDart Source (Optional)
+## Hosting Your Own TriviaDart Source (Optional)
 
 If you want to use your own Supabase backend:
+
 - Set up a `questions` table with the following columns:
 
 | Column Name         | Data Type |
@@ -100,17 +106,17 @@ If you want to use your own Supabase backend:
 
 ---
 
-## 🛠️ Technology
+## Technology
 
-- ⚛️ [React](https://react.dev/) + [Vite](https://vitejs.dev/)
-- 📝 [TypeScript](https://www.typescriptlang.org/)
-- 💅 [TailwindCSS](https://tailwindcss.com/) + [DaisyUI](https://daisyui.com/)
-- 🗄️ [Supabase](https://supabase.com/) (optional)
-- 📦 [VitePWA](https://github.com/vite-pwa/vite-plugin-pwa)
+- [React](https://react.dev/) + [Vite](https://vitejs.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [TailwindCSS](https://tailwindcss.com/) + [DaisyUI](https://daisyui.com/)
+- [Supabase](https://supabase.com/) (optional)
+- [VitePWA](https://github.com/vite-pwa/vite-plugin-pwa)
 
 ---
 
-## 📜 License & Credits
+## License & Credits
 
 - Questions from OpenTriviaDB and The-Trivia-API are licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/).
 - Questions from TriviaDart are sourced from the [OpenTriviaQA dataset](https://github.com/uberspot/OpenTriviaQA) and are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
